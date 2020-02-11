@@ -1,6 +1,6 @@
 import request from './utils/request'
-const testHost = 'https://apiminiv4.i-top.cn'
-const proHost = 'https://apiminiv4.i-top.cn'
+const testHost = ''
+const proHost = ''
 
 const NODE_ENV = process.env.NODE_ENV
 const baseUrl = NODE_ENV === 'development' ? testHost : proHost
