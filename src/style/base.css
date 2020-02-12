@@ -1,0 +1,60 @@
+@charset "utf-8";
+html,body{
+  padding: 0; margin: 0;
+  font-size: 16px;
+  font-family: "PingFangSC-Regular", "Microsoft Yahei", Arial, Verdana, SimHei,Geneva,sans-serif;
+}
+ul,li,form, dl,dt,dd, div{ padding: 0px; margin: 0px;list-style: none}
+em,i{font-style: normal;}
+ul li, ol li{ list-style:none;}
+h1,h2,h3,h4,h5,h6,p{ padding:0px; margin:0px;}
+select,input,textarea{ border-radius:0; -webkit-border-radius:0; color:#414446;}
+input:focus { outline: none;}
+input,button,select,textarea{outline:none;/*-webkit-appearance:none;*//*强制去除表单自带的样式*/ }
+textarea{resize:none;/*-webkit-appearance:none;*//*强制去除textarea自带的样式*/ }
+textarea,input,select { background:none; border:none; margin:0; padding:0;}
+article,aside,footer,header,hgroup,nav,section,figure,figcaption{ display: block;} /*html5设置*/
+figure,figcaption{ margin:0px; padding:0px;}
+audio,canvas,progress,video { display: inline-block; vertical-align: baseline;}
+img{ border:none; border:0;  vertical-align:middle;}
+a{ color:#414446; text-decoration:none; -webkit-tap-highlight-color:rgba(0,0,0,0);}
+a:focus {outline:none; -moz-outline:none;}
+a:hover{ text-decoration:none;}
+#app{height: 100%;}
+[v-cloak]{
+	visibility: hidden;
+}
+
+.fade-enter-active, .fade-leave-active {
+	transition: opacity .3s
+}
+.fade-enter, .fade-leave-active {
+	opacity: 0
+}
+
+.flip-list-move {
+	transition: transform 1s;
+}
+
+.btn-clear {
+  -webkit-appearance: none;
+  border: none;
+  white-space: nowrap;
+  background: none;
+}
+.one-px-line{
+  position: relative;
+}
+
+.one-px-line::after {
+   background: #EAEAEA;
+   width: 100%;
+   height: 1px;
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   content: '';
+}
+.tvp_app_download_onpause{
+  display: none !important;
+}
