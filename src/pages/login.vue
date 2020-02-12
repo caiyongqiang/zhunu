@@ -1,85 +1,10 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+  <div class="login">
+    <div class="login-block">
+      <el-input v-model="mobile" class="inputs" placeholder="请输入内容"></el-input>
+      <el-input v-model="password" class="inputs password" placeholder="请输入内容"></el-input>
+      <el-button type="primary" @click="singup" class="signup">登录</el-button>
+  </div>
   </div>
 </template>
 
@@ -89,34 +14,51 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      mobile: '',
+      password: ''
     }
   },
   mounted() {
-    console.log(process)
-        console.log(process.env)
-    console.log(process.env.NODE_ENV)
-   
-    getProductList({}).then(res => {
-      console.log(res, 'getBannerList')
-    })
+
+
+
+
+
+
+
   },
+  methods: {
+    singup () {
+      this.$router.push({path: '/adminUser'})
+}
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-h1, h2 {
-  font-weight: normal;
+.login-block{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 20rem;
+  height: 10rem;
+  margin:auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  text-align: center;
+  padding: 2rem 0;
+  .inputs{
+    width: 18rem;
+    text-align: center;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+  .password{
+    margin-top: 1rem;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+  .signup{
+    width: 15rem;
+    margin-top: 2rem;
 }
-a {
-  color: #42b983;
 }
 </style>
