@@ -22,7 +22,13 @@
         <el-table-column
           prop="sex"
           align='center'
+          min-width="400px"
           label="视频">
+          <template slot-scope="scope">
+            <div @click="playVideo(scope.row.video, scope.row.name)">
+              <video width="300px" object-fit='contain' :src="scope.row.video"></video>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           prop="date"
@@ -47,6 +53,12 @@
         :total="1000">
       </el-pagination>
     </div>
+    <!-- <div class="video-mask">
+      <div class="video-content">
+        <div></div>
+        <video src=""></video>
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -62,28 +74,32 @@ export default {
           mobile: '13660000000',
           address: '广东-广州',
           user: '13000000009',
-          sex: '男'
+          sex: '男',
+          video: 'https://vdept.bdstatic.com/33333534434851637837727376746368/5278336d716b6b71/6b34da218bfb75135381ec24fe5e9f4a552c7e4dd6690cc030c42ac225ef0924285fc1b99033fd181d9d3cb3a3879b15.mp4?auth_key=1581516022-0-0-b084093c73b45c4d27124f465b2d8916'
         }, {
           date: '2019-03-23',
           name: '王小虎',
           mobile: '13660000000',
           address: '广东-广州',
           user: '13000000009',
-          sex: '男'
+          sex: '男',
+          video: 'https://vdept.bdstatic.com/33333534434851637837727376746368/5278336d716b6b71/6b34da218bfb75135381ec24fe5e9f4a552c7e4dd6690cc030c42ac225ef0924285fc1b99033fd181d9d3cb3a3879b15.mp4?auth_key=1581516022-0-0-b084093c73b45c4d27124f465b2d8916'
         },{
           date: '2019-03-23',
           name: '王小虎',
           mobile: '13660000000',
           address: '广东-广州',
           user: '13000000009',
-          sex: '男'
+          sex: '男',
+          video: 'https://vdept.bdstatic.com/33333534434851637837727376746368/5278336d716b6b71/6b34da218bfb75135381ec24fe5e9f4a552c7e4dd6690cc030c42ac225ef0924285fc1b99033fd181d9d3cb3a3879b15.mp4?auth_key=1581516022-0-0-b084093c73b45c4d27124f465b2d8916'
         },{
           date: '2019-03-23',
           name: '王小虎',
           mobile: '13660000000',
           address: '广东-广州',
           user: '13000000009',
-          sex: '男'
+          sex: '男',
+          video: 'https://vdept.bdstatic.com/33333534434851637837727376746368/5278336d716b6b71/6b34da218bfb75135381ec24fe5e9f4a552c7e4dd6690cc030c42ac225ef0924285fc1b99033fd181d9d3cb3a3879b15.mp4?auth_key=1581516022-0-0-b084093c73b45c4d27124f465b2d8916'
         }]
     }
   },
@@ -93,7 +109,21 @@ export default {
     // })
   },
   methods: {
-
+    playVideo (url, name) {
+      this.$alert(`
+      <video width='350px' id='videoId' controls="controls" object-fit='contain' src=${url}></video>
+      `,
+       name, {
+          dangerouslyUseHTMLString: true,
+          center: true
+        }).then(res => {
+          var video = document.getElementById('videoId');
+          video.src = '';
+        }).catch(err => {
+          var video = document.getElementById('videoId');
+          video.src = '';
+        });
+    }
   }
 }
 </script>
@@ -109,5 +139,6 @@ export default {
 .pagination{
   text-align: center;
   margin-top: 1rem;
+  padding-bottom: 3rem
 }
 </style>

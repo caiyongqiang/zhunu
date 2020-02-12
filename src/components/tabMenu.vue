@@ -60,7 +60,8 @@
     width: 10rem;
   }
   .el-menu-vertical-demo{
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     text-align: center;
   }
 </style>
