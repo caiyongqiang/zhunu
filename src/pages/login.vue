@@ -4,7 +4,7 @@
       <el-input v-model="mobile" class="inputs" placeholder="请输入内容"></el-input>
       <el-input v-model="password" class="inputs password" placeholder="请输入内容"></el-input>
       <el-button type="primary" @click="singup" class="signup">登录</el-button>
-    </div>
+  </div>
   </div>
 </template>
 
@@ -19,11 +19,18 @@ export default {
     }
   },
   mounted() {
+
+
+
+
+
+
+
   },
   methods: {
     singup () {
       this.$router.push({path: '/adminUser'})
-    }
+}
   }
 }
 </script>
@@ -45,13 +52,13 @@ export default {
   .inputs{
     width: 18rem;
     text-align: center;
-  }
+}
   .password{
     margin-top: 1rem;
-  }
+}
   .signup{
     width: 15rem;
     margin-top: 2rem;
-  }
+}
 }
 </style>

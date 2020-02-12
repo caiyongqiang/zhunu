@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import adminUser from '@/pages/admin-user'
 import Login from '@/pages/login'
 import adminCenter from '@/pages/admin-center'
 
