@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    标签管理
+    标签管理（我自己新增的测试的东西））
   </div>
 </template>
 
