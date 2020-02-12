@@ -54,7 +54,7 @@
           </template>
         </el-table-column>
       </el-table>
-  </div>
+    </div>
     <div class="pagination">
       <el-pagination
         background
@@ -68,44 +68,9 @@
 import dataTable from "@/components/_table.vue";
 import { getProductList } from "@/api";
 export default {
-  components: {
-    dataTable
-  },
-  name: "admin-user",
-  data() {
+  name: 'HelloWorld',
+  data () {
     return {
-<<<<<<< .mine
-      columns: [
-        { field: "PKID", title: "隐藏主键", hidden: true },
-        { field: "name", title: "昵称" },
-        { field: "Phone", title: "联系电话" },
-        { field: "sex", title: "性别" },
-        { field: "birth", title: "出生日期" },
-        { field: "city", title: "所在城市" },
-        { field: "baduser", title: "拉黑用户" }
-      ],
-      // 页面有筛选时用到 查询表单
-      form: {
-        DistributorName: "",
-        FKGradeID: "",
-        CurrentStatus: "",
-        AuthStartTime: "",
-        AuthEndTime: "",
-        ExamineStatus: 2
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
       tableData: [{
           date: '2019-03-23',
           name: '王小虎',
@@ -136,7 +101,27 @@ export default {
           sex: '男'
         }]
     }
->>>>>>> .theirs
+  },
+  name: "admin-user",
+  data() {
+    return {
+      columns: [
+        { field: "PKID", title: "隐藏主键", hidden: true },
+        { field: "name", title: "昵称" },
+        { field: "Phone", title: "联系电话" },
+        { field: "sex", title: "性别" },
+        { field: "birth", title: "出生日期" },
+        { field: "city", title: "所在城市" },
+        { field: "baduser", title: "拉黑用户" }
+      ],
+      // 页面有筛选时用到 查询表单
+      form: {
+        DistributorName: "",
+        FKGradeID: "",
+        CurrentStatus: "",
+        AuthStartTime: "",
+        AuthEndTime: "",
+        ExamineStatus: 2
       },
       // 分页、排序 控制器
       pageing: {
@@ -186,19 +171,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-<<<<<<< .mine
-
-
-
-
-
-
-
-
-
-
-
-=======
 .all{
   padding-top: 1rem;
 }
@@ -210,5 +182,4 @@ export default {
   text-align: center;
   margin-top: 1rem;
 }
->>>>>>> .theirs
 </style>

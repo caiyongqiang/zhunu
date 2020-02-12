@@ -8,15 +8,10 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'Login',
-    //   component: Login
-    // },
     {
       path: '/',
-      name: 'adminUser',
-      component: adminUser
+      name: 'Login',
+      component: Login
     },
     {
       path: '/adminCenter',
