@@ -93,8 +93,12 @@ export default {
     }
   },
   mounted() {
+    console.log(process)
+        console.log(process.env)
+    console.log(process.env.NODE_ENV)
+   
     getProductList({}).then(res => {
-      console.log(res, 'getBannerList')
+      // console.log(res, 'getBannerList')
     })
   },
 }
