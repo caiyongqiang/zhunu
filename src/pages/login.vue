@@ -98,7 +98,7 @@ export default {
     console.log(process.env.NODE_ENV)
    
     getProductList({}).then(res => {
-      // console.log(res, 'getBannerList')
+      console.log(res, 'getBannerList')
     })
   },
 }
