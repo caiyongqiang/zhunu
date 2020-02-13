@@ -62,12 +62,19 @@
         :total="1000">
       </el-pagination>
     </div>
+    {{userInfo.name}}
   </div>
 </template>
 <script>
+import { mapActions, mapState } from 'vuex';
 import { getProductList } from "@/api";
 export default {
   name: 'HelloWorld',
+  computed: {
+      ...mapState({
+        userInfo: state => state.store.userInfo,
+      })
+    },
   data () {
     return {
       tableData: [{
@@ -102,11 +109,12 @@ export default {
     }
   },
   mounted() {
-
+    console.log(this.userInfo, 'userInfo')
   },
   methods: {
+    ...mapActions(['changeUserInfo']),
     handleDelet () {
-
+      this.changeUserInfo({name: 'changeUserInfo'})
     }
   }
 };
