@@ -26,7 +26,7 @@
           label="视频">
           <template slot-scope="scope">
             <div @click="playVideo(scope.row.video, scope.row.name)">
-              <video width="300px" object-fit='contain' :src="scope.row.video"></video>
+              <video width="300px" height="200px" object-fit='contain' :src="scope.row.video"></video>
             </div>
           </template>
         </el-table-column>
@@ -38,10 +38,12 @@
           <template slot-scope="scope">
             <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">删除</el-button>
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)">下载</el-button>
+            type="primary"
+            @click="handleDownload(scope.$index, scope.row)">下载</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -69,37 +71,41 @@ export default {
   data () {
     return {
       tableData: [{
+          id: 1,
           date: '2019-03-23',
           name: '王小虎',
           mobile: '13660000000',
           address: '广东-广州',
           user: '13000000009',
           sex: '男',
-          video: 'https://vdept.bdstatic.com/33333534434851637837727376746368/5278336d716b6b71/6b34da218bfb75135381ec24fe5e9f4a552c7e4dd6690cc030c42ac225ef0924285fc1b99033fd181d9d3cb3a3879b15.mp4?auth_key=1581516022-0-0-b084093c73b45c4d27124f465b2d8916'
+          video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
         }, {
+          id: 2,
           date: '2019-03-23',
           name: '王小虎',
           mobile: '13660000000',
           address: '广东-广州',
           user: '13000000009',
           sex: '男',
-          video: 'https://vdept.bdstatic.com/33333534434851637837727376746368/5278336d716b6b71/6b34da218bfb75135381ec24fe5e9f4a552c7e4dd6690cc030c42ac225ef0924285fc1b99033fd181d9d3cb3a3879b15.mp4?auth_key=1581516022-0-0-b084093c73b45c4d27124f465b2d8916'
+          video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
         },{
+          id: 3,
           date: '2019-03-23',
           name: '王小虎',
           mobile: '13660000000',
           address: '广东-广州',
           user: '13000000009',
           sex: '男',
-          video: 'https://vdept.bdstatic.com/33333534434851637837727376746368/5278336d716b6b71/6b34da218bfb75135381ec24fe5e9f4a552c7e4dd6690cc030c42ac225ef0924285fc1b99033fd181d9d3cb3a3879b15.mp4?auth_key=1581516022-0-0-b084093c73b45c4d27124f465b2d8916'
+          video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
         },{
+          id: 4,
           date: '2019-03-23',
           name: '王小虎',
           mobile: '13660000000',
           address: '广东-广州',
           user: '13000000009',
           sex: '男',
-          video: 'https://vdept.bdstatic.com/33333534434851637837727376746368/5278336d716b6b71/6b34da218bfb75135381ec24fe5e9f4a552c7e4dd6690cc030c42ac225ef0924285fc1b99033fd181d9d3cb3a3879b15.mp4?auth_key=1581516022-0-0-b084093c73b45c4d27124f465b2d8916'
+          video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
         }]
     }
   },
@@ -111,9 +117,9 @@ export default {
   methods: {
     playVideo (url, name) {
       this.$alert(`
-      <video width='350px' id='videoId' controls="controls" object-fit='contain' src=${url}></video>
-      `,
-       name, {
+        <video width='350px' id='videoId' controls="controls" object-fit='contain' src=${url}></video>
+        `,
+        name, {
           dangerouslyUseHTMLString: true,
           center: true
         }).then(res => {
@@ -122,7 +128,14 @@ export default {
         }).catch(err => {
           var video = document.getElementById('videoId');
           video.src = '';
-        });
+      });
+    },
+    handleDelete (index, item) {
+      this.tableData.splice(index, 1)
+    },
+    handleDownload (index, item) {
+      // window.location.href = item.video
+      window.open(item.video)
     }
   }
 }

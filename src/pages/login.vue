@@ -20,17 +20,11 @@ export default {
   },
   mounted() {
 
-
-
-
-
-
-
   },
   methods: {
     singup () {
       this.$router.push({path: '/adminUser'})
-}
+    }
   }
 }
 </script>

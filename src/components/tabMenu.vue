@@ -1,7 +1,7 @@
 <template>
   <div class="elRow">
       <el-menu
-        default-active="/adminUser"
+        :default-active="activerouter"
         router
         class="el-menu-vertical-demo"
         @open="handleOpen"

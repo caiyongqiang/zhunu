@@ -46,10 +46,15 @@
           prop=""
           align='center'
           label="操作"
-          min-width="120px">
+          min-width="200px">
           <template slot-scope="scope">
             <el-button
             size="mini"
+            type="primary"
+            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button
+            size="mini"
+            type="danger"
             @click="handleDelet(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -62,7 +67,6 @@
         :total="1000">
       </el-pagination>
     </div>
-    {{userInfo.name}}
   </div>
 </template>
 <script>
@@ -82,7 +86,7 @@ export default {
           name: '王小虎',
           mobile: '13660000000',
           address: '广东-广州',
-          user: '13000000009',
+          user: '13000000009、13593993939',
           sex: '男'
         }, {
           date: '2019-03-23',
@@ -113,8 +117,12 @@ export default {
   },
   methods: {
     ...mapActions(['changeUserInfo']),
-    handleDelet () {
-      this.changeUserInfo({name: 'changeUserInfo'})
+    handleEdit (index, item) {
+
+    },
+    handleDelet (index, item) {
+      // this.changeUserInfo({name: 'changeUserInfo'})
+      this.tableData.splice(index, 1)
     }
   }
 };
