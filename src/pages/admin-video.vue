@@ -146,12 +146,16 @@ export default {
   padding-top: 1rem;
 }
 .table{
-  max-width: 100rem;
+  max-width: 150rem;
   margin-top: 2rem;
 }
 .pagination{
   text-align: center;
   margin-top: 1rem;
   padding-bottom: 3rem
+}
+.table{
+  max-height: 78vh;
+  overflow: auto;
 }
 </style>
