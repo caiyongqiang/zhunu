@@ -24,6 +24,12 @@ const state = {
       { "PKID":'0',"name":"张三","numb":1},
       { "PKID":'1',"name":"李四","numb":2},
       { "PKID":'2',"name":"张三","numb":3},
+    ],
+    // 推广数量
+    materialData:[
+      { "PKID":'0',"name":"张","numb":1},
+      { "PKID":'1',"name":"力","numb":2},
+      { "PKID":'2',"name":"奥","numb":3},
     ]
 }
 

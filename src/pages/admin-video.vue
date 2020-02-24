@@ -6,6 +6,7 @@
         :data="tableData"
         border
         stripe
+        :header-cell-style="{background:'#F3F5F9'}"
         style="width: 100%">
         <el-table-column
           prop="mobile"
@@ -131,7 +132,11 @@ export default {
       });
     },
     handleDelete (index, item) {
-      this.tableData.splice(index, 1)
+      this.$confirm('你确定要删除？')
+          .then(_ => {
+           this.tableData.splice(index, 1)
+          })
+      .catch(_ => {});
     },
     handleDownload (index, item) {
       // window.location.href = item.video

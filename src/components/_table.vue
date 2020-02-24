@@ -9,7 +9,7 @@
       <!-- 配置是否多选 -->
       <!-- <el-table-column v-if="isShowCheck" type="selection" width="80" > </el-table-column> -->
       <!-- 数据列 -->
-      <template v-for='(item,index) in columns'  v-if='!item.hidden'>
+      <template v-for='(item,index) in columns' v-if='!item.hidden'>
         <!-- :width="item.width ||'auto'" -->
         <template v-if="item.title=='推广链接'">
            <slot name="btnList_link"></slot>
@@ -18,7 +18,7 @@
            <el-table-column :key='index' :prop="item.field|formatTrim" :label="item.title" :align='item.align||"center"' :sortable="item.sortable" :formatter="item.formatter" min-width="120px" >
         </el-table-column>
         </template>
-       
+
       </template>
       <slot name="btnList"></slot>
     </el-table>
@@ -88,6 +88,7 @@ export default {
       userData: state => state.store.userData,  //用户信息数据
       extensionData: state => state.store.extensionData,  //数据
       labelData: state => state.store.labelData,  //标签数据
+      materialData: state => state.store.materialData // 素材管理
     })
   },
   data () {
@@ -109,13 +110,15 @@ export default {
          this.dataList = this.userData
       }else if(this.FromPath=="admin-extension"){
          this.dataList = this.extensionData
-      }else{
+      }else if (this.FromPath == 'admin_material') {
+        this.dataList = this.materialData
+      } else{
        this.dataList = this.labelData
       }
            // this.pageing.total = 3
-          getProductList({}).then(res => {
-          console.log(res, 'getBannerList')
-           })
+          // getProductList({}).then(res => {
+          // console.log(res, 'getBannerList')
+          //  })
         this.loading=false
     },
     // 以多少页分页

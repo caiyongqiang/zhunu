@@ -29,7 +29,7 @@
         <el-table-column label="操作" align="center" min-width="200px">
           <template slot-scope="scope">
             <template v-for="(item,index) in handleArr">
-              <el-button :type="item.type" @click="handleCommand(item.name,scope.row)">{{item.name}}</el-button>
+              <el-button :type="item.type" :key="index" @click="handleCommand(item.name,scope.row)">{{item.name}}</el-button>
             </template>
           </template>
         </el-table-column>
