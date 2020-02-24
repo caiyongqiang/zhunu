@@ -35,10 +35,10 @@
         </el-table-column>
       </template>
     </data-table>
-     <el-dialog title="编辑用户信息" :visible.sync="dialogTableVisible" width="450px" center :before-close="handleClose" :show-close="false">
+     <el-dialog title="编辑用户信息" :visible.sync="dialogTableVisible" width="500px" center :before-close="handleClose" :show-close="false">
        <el-form ref="form_edit" :rules="rules" :model="form_edit" :inline="true" label-position="right" class="demo-ruleForm">
             <el-form-item label="昵称：" prop="name">
-                <el-input v-model="form_edit.name" placeholder="请输入昵称"></el-input>
+              <el-input v-model="form_edit.name" placeholder="请输入昵称"></el-input>
             </el-form-item>
             <el-form-item label="联系电话：" prop="Phone" maxlength="11">
                 <el-input v-model.number="form_edit.Phone" placeholder="请输入手机号码"></el-input>

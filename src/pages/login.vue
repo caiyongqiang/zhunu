@@ -1,8 +1,8 @@
 <template>
   <div class="login">
     <div class="login-block">
-      <el-input v-model="mobile" class="inputs" placeholder="请输入内容"></el-input>
-      <el-input v-model="password" class="inputs password" placeholder="请输入内容"></el-input>
+      <el-input v-model="mobile" class="inputs" placeholder="请输入账号"></el-input>
+      <el-input v-model="password" type='password' class="inputs password" placeholder="请输入密码"></el-input>
       <el-button type="primary" @click="singup" class="signup">登录</el-button>
   </div>
   </div>
