@@ -75,7 +75,7 @@ export default {
   name: "HelloWorld",
   computed: {
     ...mapState({
-      userInfo: state => state.store.userInfo
+      userData: state => state.store.userData
     })
   },
   data() {
@@ -172,7 +172,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.userInfo, "userInfo");
+    console.log(this.userData, "userData");
   },
   methods: {
     ...mapActions(["changeUserInfo"]),
@@ -197,13 +197,13 @@ export default {
       this.$refs.table.getList();
     },
     // 删除
-    DeleteAway() {
+    DeleteAway(data) {
       console.log("删除");
-  //  this.tableData.splice(index, 1);
      this.changeUserInfo({name: 'changeUserInfo'})
       this.$confirm('确认关闭？')
           .then(_ => {
-           this.changeUserData([{ "PKID":'0',"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000"}])
+           this.userData.splice(data.PKID, 1);
+           this.changeUserData(this.userData)
             setTimeout(()=>{
            this.$refs.table.getList();
       },1000)
@@ -230,7 +230,7 @@ export default {
   padding-top: 1rem;
 }
 .table {
-  max-width: 100rem;
+  max-width: 150rem;
   margin-top: 2rem;
 }
 .pagination {

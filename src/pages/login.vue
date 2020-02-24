@@ -23,13 +23,36 @@ export default {
   },
   methods: {
     singup () {
+      if(!this.mobile){
+        this.$message({
+          showClose: true,
+          message: '请输入账号',
+          type: 'warning'
+        });
+      }else if(!this.password){
+        this.$message({
+          showClose: true,
+          message: '请输入密码',
+          type: 'warning'
+        });
+      }else{
       this.$router.push({path: '/adminUser'})
+
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.login{
+  background: url('../../static/back.jpg');
+   max-width: 200rem;
+  min-height: 100vh;
+  height: 55rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%
+}
 .login-block{
   position: absolute;
   top: 0;

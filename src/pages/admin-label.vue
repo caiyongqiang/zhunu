@@ -37,7 +37,7 @@ export default {
   name: "HelloWorld",
   computed: {
     ...mapState({
-      userInfo: state => state.store.userInfo
+      labelData: state => state.store.labelData
     })
   },
   data() {
@@ -75,7 +75,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.changelabelData, "userInfo");
+    console.log(this.labelData, "labelData");
   },
   methods: {
     ...mapActions(["changelabelData"]),
@@ -96,10 +96,11 @@ export default {
       this.$refs.table.getList();
     },
     // 删除
-    DeleteAway() {
+    DeleteAway(data) {
       this.$confirm('确认关闭？')
           .then(_ => {
-           this.changelabelData([  { "PKID":'2',"name":"张三","numb":3}])
+           this.labelData.splice(data.PKID,1)
+           this.changelabelData(this.labelData)
             setTimeout(()=>{
            this.$refs.table.getList();
       },1000)
@@ -139,6 +140,9 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+.el-button--primary{
+  margin-right: 50px;
 }
 // .el-form-item{
 //   display: flex;

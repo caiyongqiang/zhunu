@@ -2,6 +2,13 @@
   <div class="all">
     <div>推广管理信息</div>
     <data-table :columns="columns" :form="form" :pageing="pageing"  :FromPath="FromPath"  ref="table" >
+        <template slot="btnList_link">
+       <el-table-column label="访问链接" align="center" min-width="200px">
+          <template slot-scope="scope">
+              <a :href="scope.row.extention_url" class="hreLinkClass">{{scope.row.extention_url}}</a>
+          </template>
+        </el-table-column>
+        </template>
       <template slot="btnList">
         <el-table-column label="操作" align="center" min-width="200px">
           <template slot-scope="scope">
@@ -25,7 +32,7 @@ export default {
   name: "HelloWorld",
   computed: {
     ...mapState({
-      userInfo: state => state.store.userInfo
+      extensionData: state => state.store.extensionData
     })
   },
   data() {
@@ -56,7 +63,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.userInfo, "userInfo");
+    console.log(this.extensionData, "extensionData");
   },
   methods: {
      ...mapActions(["changeextensionData"]),
@@ -68,12 +75,11 @@ export default {
       }
     },
       // 删除
-    DeleteAway() {
-      console.log("删除");
-  //  this.tableData.splice(index, 1);
+    DeleteAway(data) {
       this.$confirm('确认关闭？')
           .then(_ => {
-           this.changeextensionData([{ "PKID":'0',"name":"张三","extention_url":"https://www/baidu.com","extention_visit":"150","extention_Down":'150'}])
+          this.extensionData.splice(data.PKID,1)
+           this.changeextensionData(this.extensionData)
             setTimeout(()=>{
            this.$refs.table.getList();
       },1000)
@@ -104,5 +110,8 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+.hreLinkClass:hover{
+  color: green
 }
 </style>
