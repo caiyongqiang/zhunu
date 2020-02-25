@@ -22,6 +22,12 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  watch:true,
+  watchOptions:{ 
+      poll:1000, 
+      aggregateTimeout:500,  
+      ignored:/node_modules/ 
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
