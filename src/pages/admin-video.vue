@@ -1,13 +1,44 @@
 <template>
   <div class="all">
-    <div>视频管理</div>
+    <div  class="headerClass">视频管理</div>
+      <div class="handle-box">
+      <el-form ref="form" :model="form" :inline="true">
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="昵称：" class="Form-lable">
+              <el-input v-model="form.name" placeholder="请输入用户昵称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="联系电话：" class="Form-lable">
+              <el-input v-model="form.Phone" placeholder="请输入用户电话"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" @click="search"  class="SeachClass">查询</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="clearForm">重置</el-button>
+          </el-form-item>
+        </el-row>
+      </el-form>
+    </div>
     <div class="table">
       <el-table
         :data="tableData"
         border
+        height="550"
         stripe
         :header-cell-style="{background:'#F3F5F9'}"
         style="width: 100%">
+        <el-table-column
+          prop="id"
+          label="序号"
+          align='center'
+          min-width="120px">
+        </el-table-column>
         <el-table-column
           prop="mobile"
           label="用户手机号"
@@ -67,8 +98,10 @@
 
 <script>
 import { getProductList } from '@/api'
+import listMixins from '@/utils/listMixins.js'
 export default {
   name: 'HelloWorld',
+    mixins: [listMixins],
   data () {
     return {
       tableData: [{
@@ -107,7 +140,11 @@ export default {
           user: '13000000009',
           sex: '男',
           video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
-        }]
+        }],
+           form: {
+       numb: "",
+        Phone: "",
+      },
     }
   },
   mounted() {
@@ -151,7 +188,8 @@ export default {
   padding-top: 1rem;
 }
 .table{
-  max-width: 150rem;
+  max-width: 105rem;
+  // min-width: 50rem;
   margin-top: 2rem;
 }
 .pagination{

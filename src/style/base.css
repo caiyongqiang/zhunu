@@ -58,3 +58,9 @@ a:hover{ text-decoration:none;}
 .tvp_app_download_onpause{
   display: none !important;
 }
+.headerClass{
+  margin-bottom: 35px;
+}
+.SeachClass{
+  margin-right: 50px;
+}

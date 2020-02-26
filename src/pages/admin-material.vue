@@ -1,6 +1,30 @@
 <template>
   <div class="all">
-    <div>素材管理信息</div>
+    <div  class="headerClass">素材管理信息</div>
+      <div class="handle-box">
+      <el-form ref="form" :model="form" :inline="true">
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="昵称：" class="Form-lable">
+              <el-input v-model="form.name" placeholder="请输入用户昵称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="联系电话：" class="Form-lable">
+              <el-input v-model="form.Phone" placeholder="请输入用户电话"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" @click="search">查询</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="clearForm">重置</el-button>
+          </el-form-item>
+        </el-row>
+      </el-form>
+    </div>
     <data-table :columns="columns" :form="form" :pageing="pageing" :FromPath="FromPath"  ref="table" >
       <template slot="btnList">
         <el-table-column label="操作" align="center" min-width="200px">
@@ -32,10 +56,12 @@
 import { mapActions, mapState } from "vuex";
 import dataTable from "@/components/_table.vue";
 import { getProductList } from "@/api";
+import listMixins from '@/utils/listMixins.js';
 export default {
   components: {
     dataTable
   },
+   mixins: [listMixins],
   name: "HelloWorld",
   computed: {
     ...mapState({
@@ -46,6 +72,7 @@ export default {
     return {
       dialogTableVisible:false,
       columns: [
+        { field: "numb_pk", title: "序号"},
         { field: "numb", title: "权重值" },
         { field: "name", title: "文字" },
       ],

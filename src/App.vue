@@ -22,5 +22,6 @@ export default {
 }
 .roter-page{
   width: 100%;
+  min-width: 45rem;
 }
 </style>

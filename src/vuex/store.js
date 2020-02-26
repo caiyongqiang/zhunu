@@ -9,27 +9,32 @@ const state = {
   },
   // 用户的账号信息
   userData:[ 
-    { "PKID":'0',"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000"},
-    { "PKID":'1',"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000"},
-    { "PKID":'2',"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000"},
+    { "PKID":'0',"numb":1,"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000",startBol:true},
+    { "PKID":'1',"numb":2,"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000",startBol:false},
+    { "PKID":'2',"numb":3,"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000",startBol:true},
+    { "PKID":'3',"numb":4,"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000",startBol:true},
+    { "PKID":'4',"numb":5,"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000",startBol:false},
+    { "PKID":'5',"numb":6,"name":"王阿丽","Phone":"13697418595","sex":"女","birth":'1990-12-12',"city":'广东省广州市',"baduser":"小刘：120000",startBol:true},
   ],
   // 推广数量
   extensionData:[
-    { "PKID":'0',"name":"张三","extention_url":"https://www/baidu.com","extention_visit":"150","extention_Down":'150'},
-    { "PKID":'1',"name":"李四","extention_url":"https://www/baidu.com2","extention_visit":"50","extention_Down":'150'},
-    { "PKID":'2',"name":"张三","extention_url":"https://www/baidu.com3","extention_visit":"100","extention_Down":'150'},
+    { "PKID":'0',"numb":1,"name":"张三","extention_url":"https://www/baidu.com","extention_visit":"150","extention_Down":'150'},
+    { "PKID":'1',"numb":2,"name":"李四","extention_url":"https://www/baidu.com2","extention_visit":"50","extention_Down":'150'},
+    { "PKID":'2',"numb":3,"name":"张三","extention_url":"https://www/baidu.com3","extention_visit":"100","extention_Down":'150'},
   ],
     // 推广数量
     labelData:[
       { "PKID":'0',"name":"张三","numb":1},
       { "PKID":'1',"name":"李四","numb":2},
       { "PKID":'2',"name":"张三","numb":3},
+      { "PKID":'3',"name":"李四_1","numb":4},
+      { "PKID":'4',"name":"张三_2","numb":5},
     ],
     // 推广数量
     materialData:[
-      { "PKID":'0',"name":"张","numb":1},
-      { "PKID":'1',"name":"力","numb":2},
-      { "PKID":'2',"name":"奥","numb":3},
+      { "PKID":'0',"numb_pk":1,"name":"张","numb":1},
+      { "PKID":'1',"numb_pk":2,"name":"力","numb":2},
+      { "PKID":'2',"numb_pk":3,"name":"奥","numb":3},
     ]
 }
 

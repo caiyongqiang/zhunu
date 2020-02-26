@@ -2,6 +2,7 @@
   <div class="table" >
     <el-table v-loading="loading"  :data="dataList"  ref="multipleTable" :header-cell-style="{background:'#F3F5F9'}"  
     style="width: 100%"
+     height="350"
     stripe
     border
     :span-method="objectSpanMethod" 
@@ -18,8 +19,8 @@
            <el-table-column :key='index' :prop="item.field|formatTrim" :label="item.title" :align='item.align||"center"' :sortable="item.sortable" :formatter="item.formatter" min-width="120px" >
         </el-table-column>
         </template>
-
       </template>
+      <slot name="PullblackList"></slot>
       <slot name="btnList"></slot>
     </el-table>
     <!-- 分页器 -->
