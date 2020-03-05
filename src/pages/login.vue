@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import { getProductList } from '@/api'
+import { UrlLogin} from '@/api'
+import Cookies from 'js-cookie'
 export default {
   name: 'HelloWorld',
   data () {
@@ -36,8 +37,10 @@ export default {
           type: 'warning'
         });
       }else{
-      this.$router.push({path: '/adminUser'})
-
+          UrlLogin({userName:this.mobile,password:this.password}).then(res => {
+        Cookies.set('token', res.token);
+         this.$router.push({path: '/adminUser'})
+           })
       }
     }
   }

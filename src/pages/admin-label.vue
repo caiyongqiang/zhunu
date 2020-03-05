@@ -38,12 +38,12 @@
     </data-table>
      <el-dialog title="编辑用户信息" :visible.sync="dialogTableVisible" width="450px" center :before-close="handleClose" :show-close="false">
        <el-form ref="form_edit" :rules="rules" :model="form_edit" :inline="true" label-position="right" class="demo-ruleForm">
-            <el-form-item label="标签名：" prop="name">
-                <el-input v-model="form_edit.name" placeholder="请输入标签名"></el-input>
+            <el-form-item label="标签名：" prop="content">
+                <el-input v-model="form_edit.content" placeholder="请输入标签名"></el-input>
             </el-form-item>
-             <el-form-item label="标签名：" prop="numb">
+             <!-- <el-form-item label="标签名：" prop="numb">
                 <el-input v-model="form_edit.numb" placeholder="请输入标签名"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item class="footerConent">
                 <el-button @click="cancle">取 消</el-button>
                 <el-button type="primary" @click="confirm('form_edit')">保存</el-button>
@@ -56,7 +56,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import dataTable from "@/components/_table.vue";
-import { getProductList } from "@/api";
+import { getProductList,UrlLabel,UrlLabelEdit } from "@/api";
 import listMixins from '@/utils/listMixins.js';
 export default {
   components: {
@@ -73,8 +73,8 @@ export default {
     return {
       dialogTableVisible:false,
       columns: [
-        { field: "numb", title: "序号" },
-        { field: "name", title: "标签" },
+        { field: "id", title: "序号" },
+        { field: "content", title: "标签" },
       ],
       FromPath:'admin_label',
       form: {
@@ -82,7 +82,7 @@ export default {
         },
       form_edit:{name:''},
        rules: {
-        name: [
+        content: [
           { required: true, message: '请输入标签名', trigger: 'blur' },
         ],
         numb: [
@@ -93,9 +93,7 @@ export default {
       pageing: {
         url: "ApiUrl.PList",
         total: 0,
-        sort: "PKID",
-        order: "DESC",
-        page: 1,
+        offset: 1,
         limit: 20
       },
       // 自定义按钮
@@ -124,7 +122,6 @@ export default {
     EditAway(data) {
       this.dialogTableVisible=true
       this.form_edit=JSON.parse(JSON.stringify(data))
-      this.$refs.table.getList();
     },
     // 删除
     DeleteAway(data) {
@@ -147,7 +144,12 @@ export default {
     confirm(formName){
       this.$refs[formName].validate((valid) => {
           if (valid) {
-           this.dialogTableVisible=false
+            UrlLabelEdit({id:1,content:this.form_edit.content}).then(res => {
+              // this.form_edit =res.rows[0]
+              this.dialogTableVisible=false
+              this.$refs.table.getList();
+             })
+          //  
           } else {
             console.log('error submit!!');
             return false;

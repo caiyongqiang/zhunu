@@ -66,10 +66,16 @@ export default {
       dialogTableVisible:false,
       columns: [
          { field: "numb", title: "序号"},
-        { field: "name", title: "推广姓名" },
-        { field: "extention_url", title: "推广链接" },
-        { field: "extention_visit", title: "访问量" },
-        { field: "extention_Down", title: "下载量" },
+         { field: "name", title: "渠道名称" }, // 推广姓名
+         { field: "pv", title: "独立访客量" },
+         { field: "uv", title: "点击量" },
+          { field: "iosInstallCount", title: "ios安装量" }, // 推广姓名
+         { field: "androidInstallCount", title: "安卓安装量" },
+         { field: "registerCount", title: "注册量" },
+          { field: "inputCount", title: "进件量 " },
+        // { field: "extention_url", title: "推广链接" },
+        // { field: "extention_visit", title: "访问量" },
+        // { field: "extention_Down", title: "下载量" },
       ],
       FromPath:'admin-extension',
       form:{},
