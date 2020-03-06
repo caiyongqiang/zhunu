@@ -5,15 +5,15 @@
       <el-form ref="form" :model="form" :inline="true">
         <el-row>
           <el-col :span="8">
-            <el-form-item label="昵称：" class="Form-lable">
-              <el-input v-model="form.name" placeholder="请输入用户昵称"></el-input>
+            <el-form-item label="标签：" class="Form-lable">
+              <el-input v-model="form.content" placeholder="请输入标签"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="联系电话：" class="Form-lable">
-              <el-input v-model="form.Phone" placeholder="请输入用户电话"></el-input>
-            </el-form-item>
-          </el-col>
+        </el-row>
+         <el-row class="AddClass">
+          <el-form-item>
+            <el-button icon="el-icon-plus" type="primary" @click="AddTap">新增</el-button>
+          </el-form-item>
         </el-row>
         <el-row>
           <el-form-item>
@@ -36,14 +36,11 @@
         </el-table-column>
       </template>
     </data-table>
-     <el-dialog title="编辑用户信息" :visible.sync="dialogTableVisible" width="450px" center :before-close="handleClose" :show-close="false">
+     <el-dialog :title="titleName" :visible.sync="dialogTableVisible" width="450px" center :before-close="handleClose" :show-close="false">
        <el-form ref="form_edit" :rules="rules" :model="form_edit" :inline="true" label-position="right" class="demo-ruleForm">
             <el-form-item label="标签名：" prop="content">
                 <el-input v-model="form_edit.content" placeholder="请输入标签名"></el-input>
             </el-form-item>
-             <!-- <el-form-item label="标签名：" prop="numb">
-                <el-input v-model="form_edit.numb" placeholder="请输入标签名"></el-input>
-            </el-form-item> -->
             <el-form-item class="footerConent">
                 <el-button @click="cancle">取 消</el-button>
                 <el-button type="primary" @click="confirm('form_edit')">保存</el-button>
@@ -56,7 +53,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import dataTable from "@/components/_table.vue";
-import { getProductList,UrlLabel,UrlLabelEdit } from "@/api";
+import { getProductList,UrlLabel,UrlLabelEdit,UrlLabelAdd } from "@/api";
 import listMixins from '@/utils/listMixins.js';
 export default {
   components: {
@@ -78,9 +75,10 @@ export default {
       ],
       FromPath:'admin_label',
       form: {
-        
+        content:''
         },
-      form_edit:{name:''},
+      form_edit:{content:''},
+      titleName:'',
        rules: {
         content: [
           { required: true, message: '请输入标签名', trigger: 'blur' },
@@ -91,7 +89,7 @@ export default {
       },
       // 分页、排序 控制器
       pageing: {
-        url: "ApiUrl.PList",
+        // url: "ApiUrl.PList",
         total: 0,
         offset: 1,
         limit: 20
@@ -107,6 +105,13 @@ export default {
     console.log(this.labelData, "labelData");
   },
   methods: {
+    search(){
+        this.$refs.table.getList();
+    },
+    clearForm(){
+      this.form.content=""
+        this.$refs.table.getList();
+    },
     ...mapActions(["changelabelData"]),
     handleCommand(title, data) {
       switch (title) {
@@ -118,9 +123,15 @@ export default {
           break;
       }
     },
+    // 新增
+    AddTap(){
+          this.dialogTableVisible=true
+           this.titleName="新增标签"
+    },
     // 编辑
     EditAway(data) {
       this.dialogTableVisible=true
+      this.titleName="编辑标签"
       this.form_edit=JSON.parse(JSON.stringify(data))
     },
     // 删除
@@ -139,16 +150,28 @@ export default {
     handleClose(){
     },
     cancle(){
+         for (let key in this.form_edit){
+          this.form_edit[key]=''
+      }
        this.dialogTableVisible=false
     },
     confirm(formName){
       this.$refs[formName].validate((valid) => {
           if (valid) {
-            UrlLabelEdit({id:1,content:this.form_edit.content}).then(res => {
-              // this.form_edit =res.rows[0]
+            // 这个是新增
+            if(this.titleName=="新增标签"){
+           UrlLabelAdd({content:this.form_edit.content}).then(res => {
               this.dialogTableVisible=false
               this.$refs.table.getList();
              })
+            }else{
+           // 这个是编辑
+            UrlLabelEdit(this.form_edit).then(res => {
+              this.dialogTableVisible=false
+              this.$refs.table.getList();
+             })
+            }
+          
           //  
           } else {
             console.log('error submit!!');
@@ -182,6 +205,10 @@ export default {
 }
 .el-button--primary{
   margin-right: 50px;
+}
+.AddClass {
+  display: flex;
+  justify-content: flex-end;
 }
 // .el-form-item{
 //   display: flex;

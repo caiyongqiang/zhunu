@@ -5,13 +5,18 @@
       <el-form ref="form" :model="form" :inline="true">
         <el-row>
           <el-col :span="8">
-            <el-form-item label="昵称：" class="Form-lable">
-              <el-input v-model="form.name" placeholder="请输入用户昵称"></el-input>
+            <el-form-item label="权重：" class="Form-lable">
+              <el-input v-model="form.weight" placeholder="请输入用户昵称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="联系电话：" class="Form-lable">
-              <el-input v-model="form.Phone" placeholder="请输入用户电话"></el-input>
+            <el-form-item label="文字：" class="Form-lable">
+              <el-input v-model="form.content" placeholder="请输入用户电话"></el-input>
+            </el-form-item>
+          </el-col>
+            <el-col :span="8">
+            <el-form-item label="视频最长认证时间：" class="Form-lable">
+              <el-input v-model="form.timeOut" placeholder="请输入用户电话"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -31,6 +36,15 @@
       </el-form>
     </div>
     <data-table :columns="columns" :form="form" :pageing="pageing" :FromPath="FromPath" ref="table">
+         <template slot="PullblackList">
+        <el-table-column label="是否运行" align="center" min-width="200px">
+          <template slot-scope="scope">
+            <div  @click="SwitchTap(scope.row)">
+                 <el-switch v-model="scope.row.isRun" active-text="是" inactive-text="否"></el-switch>
+            </div>
+          </template>
+        </el-table-column>
+      </template>
       <template slot="TagsList">
         <el-table-column label="标签" align="center" min-width="200px">
           <template slot-scope="scope">
@@ -132,10 +146,14 @@ export default {
       columns: [
         { field: "id", title: "序号" },
         { field: "weight", title: "权重值" },
-        { field: "content", title: "文字" }
+        { field: "content", title: "文字" },
+        { field: "timeOut", title: "视频最长认证时间" },
       ],
       FromPath: "admin_material",
-      form: {},
+      form: {
+         weight: "",
+         content: "",
+      },
       TitleName: "", //标题
       form_edit: {  //编辑，新增接受值
         weight: "",
@@ -171,13 +189,38 @@ export default {
       handleArr: [
         { name: "编辑", type: "primary" },
         { name: "删除", type: "danger" }
-      ]
+      ],
+      
     };
   },
   mounted() {
     // console.log(this.materialData, "materialData");
   },
+  created() {
+    //  var arr= this.$refs.table.getList();
+  },
   methods: {
+      search(){
+        this.$refs.table.getList();
+    },
+    clearForm(){
+       for (let key in this.form){
+          this.form[key]=''
+      }
+        this.$refs.table.getList();
+    },
+    SwitchTap(data){
+     UrltextStockEdit({id:data.id,isRun:data.isRun}).then(res => {
+            //  this.dialogTableVisible = false;
+            //   this.loading.close();
+              // this.$message({
+              //   showClose: true,
+              //   message: "修改成功",
+              //   type: "success"
+              // });
+              // this.$refs.table.getList();
+            });
+    },
     AddTap() {
       this.dialogTableVisible = true;
       this.getlabeldata();
