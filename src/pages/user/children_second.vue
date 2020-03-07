@@ -1,7 +1,7 @@
 <template>
   <div class="all">
     <div class="headerClass">管理用户信息</div>
-    <div class="handle-box">
+   <div class="handle-box">
       <el-form ref="form" :model="form" :inline="true">
         <el-row>
           <el-col :span="8">
@@ -29,7 +29,7 @@
       <template slot="PullblackList">
         <el-table-column label="拉黑用户" align="center" min-width="200px">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.isBlockedByIp" active-text="是" inactive-text="否">></el-switch>
+            <el-switch v-model="scope.row.startBol" active-text="是" inactive-text="否">></el-switch>
           </template>
         </el-table-column>
       </template>
@@ -63,13 +63,13 @@
         label-position="right"
         class="demo-ruleForm"
       >
-        <el-form-item label="昵称：" prop="userName">
-          <el-input v-model="form_edit.userName" placeholder="请输入昵称"></el-input>
+        <el-form-item label="昵称：" prop="name">
+          <el-input v-model="form_edit.name" placeholder="请输入昵称"></el-input>
         </el-form-item>
-        <el-form-item label="联系电话：" prop="mobilePhone" maxlength="11">
-          <el-input v-model.number="form_edit.mobilePhone" placeholder="请输入手机号码"></el-input>
+        <el-form-item label="联系电话：" prop="Phone" maxlength="11">
+          <el-input v-model.number="form_edit.Phone" placeholder="请输入手机号码"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="性别：" prop="sex">
+        <el-form-item label="性别：" prop="sex">
           <el-input v-model="form_edit.sex" placeholder="请输入性别"></el-input>
         </el-form-item>
         <el-form-item label="出生日期：" prop="birth" maxlength="11">
@@ -80,23 +80,20 @@
         </el-form-item>
         <el-form-item label="拉黑用户：" prop="baduser" maxlength="11">
           <el-input v-model="form_edit.baduser" placeholder="请输入拉黑用户手机号码"></el-input>
-        </el-form-item>-->
+        </el-form-item>
         <el-form-item class="footerConent">
           <el-button @click="cancle">取 消</el-button>
-          <el-button type="primary" @click="confirm('form_edit')">保存</el-button>
+          <el-button type="primary" @click="confirm">保存</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
   </div>
 </template>
 <script>
-
-import { UrlUser, UrlUserEdit } from "@/api";
 import { mapActions, mapState } from "vuex";
-import listMixins from "@/utils/listMixins.js";
+import listMixins from '@/utils/listMixins.js';
 import dataTable from "@/components/_table.vue";
 import { getProductList } from "@/api";
-
 export default {
   components: {
     dataTable
@@ -107,50 +104,83 @@ export default {
     ...mapState({
       userData: state => state.store.userData
     }),
-    changeUserData() {
-      return JSON.stringify(this.userData);
+    changeUserData(){
+      return JSON.stringify(this.userData)
     }
   },
   data() {
     return {
       dialogTableVisible: false,
-      tableData: [],
+      tableData: [
+        {
+          date: "2019-03-23",
+          name: "王小虎",
+          mobile: "13660000000",
+          address: "广东-广州",
+          user: "13000000009、13593993939",
+          sex: "男"
+        },
+        {
+          date: "2019-03-23",
+          name: "王小虎",
+          mobile: "13660000000",
+          address: "广东-广州",
+          user: "13000000009",
+          sex: "男"
+        },
+        {
+          date: "2019-03-23",
+          name: "王小虎",
+          mobile: "13660000000",
+          address: "广东-广州",
+          user: "13000000009",
+          sex: "男"
+        },
+        {
+          date: "2019-03-23",
+          name: "王小虎",
+          mobile: "13660000000",
+          address: "广东-广州",
+          user: "13000000009",
+          sex: "男"
+        }
+      ],
       FromPath: "admin_user",
       columns: [
         { field: "PKID", title: "隐藏主键", hidden: true },
-        { field: "id", title: "序号" },
-        { field: "userName", title: "昵称" },
-        { field: "mobilePhone", title: "联系电话" },
+        { field: "numb", title: "序号" },
+        { field: "name", title: "昵称" },
+        { field: "Phone", title: "联系电话" },
         { field: "sex", title: "性别" },
-        { field: "birthday", title: "出生日期" }
-        // { field: "city", title: "所在城市" }
-        // { field: "isBlockedByIp", title: "拉黑用户" }
+        { field: "birth", title: "出生日期" },
+        { field: "city", title: "所在城市" }
+        // { field: "baduser", title: "拉黑用户" }
       ],
       // 页面有筛选时用到 查询表单
       form: {
-        userName: "",
-        mobilePhone: ""
+       numb: "",
+        Phone: "",
       },
       // 分页、排序 控制器
       pageing: {
-        url: UrlUser,
+        url: "ApiUrl.PList",
         total: 0,
-        offset: 1,
-        limit: 10
+        sort: "PKID",
+        order: "DESC",
+        page: 1,
+        limit: 20
       },
       // 自定义按钮
       handleArr: [
         { name: "编辑", type: "primary" },
-        // { name: "删除", type: "danger" }
+        { name: "删除", type: "danger" }
       ],
       form_edit: {},
       rules: {
-        userName: [
+        name: [
           { required: true, message: "请输入代理商名称", trigger: "blur" }
         ],
-        mobilePhone: [
-          { required: true, message: "请输入手机号", trigger: "change" }
-        ],
+        Phone: [{ required: true, message: "请输入手机号", trigger: "change" }],
         sex: [{ required: true, message: "请输入详细地址", trigger: "blur" }],
         city: [{ required: true, message: "请选择所在地区", trigger: "blur" }],
         baduser: [
@@ -160,29 +190,28 @@ export default {
       }
     };
   },
-  watch: {
-    //  'changeUserData':{
-    //       handler: function (value, oldValue) {
-    //             let obj = JSON.parse(value);
-    //             let obj2 = JSON.parse(oldValue);
-    //             console.log(obj, obj2)
-    //             for(let i=0;i<obj.length;i++){
-    //               if(obj2[i].startBol!=obj[i].startBol){
-    //                     console.log(obj[i].PKID)
-    //                     console.log("在此处请求接口")
-    //               }
-    //             }
-    //             },
-    //       deep: true
-    //     }
-  },
+ watch: {
+ 'changeUserData':{
+      handler: function (value, oldValue) { 
+            let obj = JSON.parse(value);
+            let obj2 = JSON.parse(oldValue);
+            console.log(obj, obj2)
+            for(let i=0;i<obj.length;i++){
+              if(obj2[i].startBol!=obj[i].startBol){
+                    console.log(obj[i].PKID)
+                    console.log("在此处请求接口")  
+              }
+            }
+            },
+      deep: true
+    }
+},
   mounted() {
     console.log(this.userData, "userData");
-    // this.getEdict();
   },
   methods: {
     ...mapActions(["changeUserInfo"]),
-    // ...mapActions(["changeUserData"]),
+    ...mapActions(["changeUserData"]),
     handleCommand(title, data) {
       switch (title) {
         case "编辑":
@@ -200,51 +229,31 @@ export default {
     EditAway(data) {
       this.dialogTableVisible = true;
       this.form_edit = JSON.parse(JSON.stringify(data));
-      // this.$refs.table.getList();
-    },
-    confirm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          this.dialogTableVisible = false;
-          UrlUserEdit({
-            id: this.form_edit.id,
-            userName: this.form_edit.userName,
-            mobilePhone: this.form_edit.mobilePhone
-          }).then(res => {
-            console.log(this.loading.close())
-            this.loading.close()
-            this.$message({
-              showClose: true,
-              message: "修改成功",
-              type: "success"
-            });
-            this.$refs.table.getList();
-          });
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+      this.$refs.table.getList();
     },
     // 删除
-    // DeleteAway(data) {
-    //   console.log("删除");
-    //   this.changeUserInfo({ name: "changeUserInfo" });
-    //   this.$confirm("确认关闭？")
-    //     .then(_ => {
-    //       this.userData.splice(data.PKID, 1);
-    //       this.changeUserData(this.userData);
-    //       setTimeout(() => {
-    //         this.$refs.table.getList();
-    //       }, 1000);
-    //       done();
-    //     })
-    //     .catch(_ => {});
-    // },
+    DeleteAway(data) {
+      console.log("删除");
+      this.changeUserInfo({ name: "changeUserInfo" });
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          this.userData.splice(data.PKID, 1);
+          this.changeUserData(this.userData);
+          setTimeout(() => {
+            this.$refs.table.getList();
+          }, 1000);
+          done();
+        })
+        .catch(_ => {});
+    },
     handleClose() {},
     cancle() {
       this.dialogTableVisible = false;
-    }
+    },
+    confirm() {
+      this.dialogTableVisible = false;
+    },
+  
   }
 };
 </script>
@@ -269,4 +278,5 @@ export default {
   justify-content: center;
   margin-top: 20px;
 }
+
 </style>

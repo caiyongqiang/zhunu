@@ -1,23 +1,23 @@
 <template>
   <div class="all">
-    <div  class="headerClass">推广管理信息</div>
+    <div  class="headerClass">素材管理信息</div>
       <div class="handle-box">
       <el-form ref="form" :model="form" :inline="true">
         <el-row>
           <el-col :span="8">
-            <el-form-item label="标签：" class="Form-lable">
-              <el-input v-model="form.content" placeholder="请输入标签"></el-input>
+            <el-form-item label="昵称：" class="Form-lable">
+              <el-input v-model="form.name" placeholder="请输入用户昵称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="联系电话：" class="Form-lable">
+              <el-input v-model="form.Phone" placeholder="请输入用户电话"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-         <el-row class="AddClass">
-          <el-form-item>
-            <el-button icon="el-icon-plus" type="primary" @click="AddTap">新增</el-button>
-          </el-form-item>
-        </el-row>
         <el-row>
           <el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="search"  class="SeachClass">查询</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="search">查询</el-button>
           </el-form-item>
           <el-form-item>
             <el-button @click="clearForm">重置</el-button>
@@ -30,68 +30,72 @@
         <el-table-column label="操作" align="center" min-width="200px">
           <template slot-scope="scope">
             <template v-for="(item,index) in handleArr">
-              <el-button :type="item.type" :key="index" @click="handleCommand(item.name,scope.row)" >{{item.name}}</el-button>
+              <el-button :type="item.type" :key="index" @click="handleCommand(item.name,scope.row)">{{item.name}}</el-button>
             </template>
           </template>
         </el-table-column>
       </template>
     </data-table>
-     <el-dialog :title="titleName" :visible.sync="dialogTableVisible" width="450px" center :before-close="handleClose" :show-close="false">
+     <el-dialog title="编辑用户信息" :visible.sync="dialogTableVisible" width="450px" center :before-close="handleClose" :show-close="false">
        <el-form ref="form_edit" :rules="rules" :model="form_edit" :inline="true" label-position="right" class="demo-ruleForm">
-            <el-form-item label="标签名：" prop="content">
-                <el-input v-model="form_edit.content" placeholder="请输入标签名"></el-input>
+            <el-form-item label="权重值：" prop="numb">
+                <el-input v-model="form_edit.numb" placeholder="请输入权重值"></el-input>
+            </el-form-item>
+            <el-form-item label="文字：" prop="name">
+                <el-input v-model="form_edit.name" placeholder="请输入标文字"></el-input>
             </el-form-item>
             <el-form-item class="footerConent">
                 <el-button @click="cancle">取 消</el-button>
-                <el-button type="primary" @click="confirm('form_edit')">保存</el-button>
+                <el-button type="primary" @click="confirm">保存</el-button>
             </el-form-item>
         </el-form>
-        
     </el-dialog>
   </div>
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
 import dataTable from "@/components/_table.vue";
-import { getProductList,UrlLabel,UrlLabelEdit,UrlLabelAdd } from "@/api";
+import { getProductList } from "@/api";
 import listMixins from '@/utils/listMixins.js';
 export default {
   components: {
     dataTable
   },
-    mixins: [listMixins],
+   mixins: [listMixins],
   name: "HelloWorld",
   computed: {
     ...mapState({
-      labelData: state => state.store.labelData
+      materialData: state => state.store.materialData
     })
   },
   data() {
     return {
       dialogTableVisible:false,
       columns: [
-        { field: "id", title: "序号" },
-        { field: "content", title: "标签" },
+        { field: "numb_pk", title: "序号"},
+        { field: "numb", title: "权重值" },
+        { field: "name", title: "文字" },
       ],
-      FromPath:'admin_label',
+      FromPath:'admin_material',
       form: {
-        content:''
+        
         },
-      form_edit:{content:''},
-      titleName:'',
+      form_edit:{name:'', numb: ''},
        rules: {
-        content: [
-          { required: true, message: '请输入标签名', trigger: 'blur' },
+        name: [
+          { required: true, message: '请输入文字', trigger: 'blur' },
         ],
         numb: [
-          { required: true, message: '请输入标签名', trigger: 'blur' },
+          { required: true, message: '请输入权重值', trigger: 'blur' },
         ]
       },
       // 分页、排序 控制器
       pageing: {
-        // url: "ApiUrl.PList",
+        url: "ApiUrl.PList",
         total: 0,
-        offset: 1,
+        sort: "PKID",
+        order: "DESC",
+        page: 1,
         limit: 20
       },
       // 自定义按钮
@@ -102,16 +106,9 @@ export default {
     };
   },
   mounted() {
-    console.log(this.labelData, "labelData");
+    console.log(this.materialData, "materialData");
   },
   methods: {
-    search(){
-        this.$refs.table.getList();
-    },
-    clearForm(){
-      this.form.content=""
-        this.$refs.table.getList();
-    },
     ...mapActions(["changelabelData"]),
     handleCommand(title, data) {
       switch (title) {
@@ -123,26 +120,21 @@ export default {
           break;
       }
     },
-    // 新增
-    AddTap(){
-          this.dialogTableVisible=true
-           this.titleName="新增标签"
-    },
     // 编辑
     EditAway(data) {
       this.dialogTableVisible=true
-      this.titleName="编辑标签"
       this.form_edit=JSON.parse(JSON.stringify(data))
+      
     },
     // 删除
     DeleteAway(data) {
-      this.$confirm('确认关闭？')
+      this.$confirm('你确定要删除？')
           .then(_ => {
-           this.labelData.splice(data.PKID,1)
-           this.changelabelData(this.labelData)
+           this.materialData.splice(data.PKID,1)
+           this.changelabelData(this.materialData)
             setTimeout(()=>{
-           this.$refs.table.getList();
-      },1000)
+              this.$refs.table.getList();
+            },1000)
             done();
           })
       .catch(_ => {});
@@ -150,35 +142,13 @@ export default {
     handleClose(){
     },
     cancle(){
-         for (let key in this.form_edit){
-          this.form_edit[key]=''
-      }
        this.dialogTableVisible=false
     },
-    confirm(formName){
-      this.$refs[formName].validate((valid) => {
-          if (valid) {
-            // 这个是新增
-            if(this.titleName=="新增标签"){
-           UrlLabelAdd({content:this.form_edit.content}).then(res => {
-              this.dialogTableVisible=false
-              this.$refs.table.getList();
-             })
-            }else{
-           // 这个是编辑
-            UrlLabelEdit(this.form_edit).then(res => {
-              this.dialogTableVisible=false
-              this.$refs.table.getList();
-             })
-            }
-          
-          //  
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+    confirm(){
+       this.dialogTableVisible=false
+       this.$refs.table.getList();
     },
+    
   }
 };
 </script>
@@ -205,10 +175,6 @@ export default {
 }
 .el-button--primary{
   margin-right: 50px;
-}
-.AddClass {
-  display: flex;
-  justify-content: flex-end;
 }
 // .el-form-item{
 //   display: flex;

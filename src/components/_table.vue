@@ -21,11 +21,12 @@
         </template>
       </template>
       <slot name="PullblackList"></slot>
+      <slot name="TagsList"></slot>
       <slot name="btnList"></slot>
     </el-table>
     <!-- 分页器 -->
     <div class="pagination">
-      <el-pagination v-if="isShowPageing" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageing.page" :page-sizes="[1,5, 10, 20, 30,50,100]" :page-size="pageing.limit" layout="total, sizes, prev, pager, next, jumper" :total="pageing.total">
+      <el-pagination v-if="isShowPageing" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageing.offset" :page-sizes="[1,5, 10, 20, 30,50,100]" :page-size="pageing.limit" layout="total, sizes, prev, pager, next, jumper" :total="pageing.total">
     </el-pagination>
     </div>
     
@@ -36,7 +37,7 @@
 import { mapActions, mapState } from "vuex";
 
 import eventBus from "@/utils/eventBus";
-import { getProductList } from "@/api";
+import { UrlUser,UrlLabel,UrltextStock,UrlChannel } from "@/api";
 export default {
      props: {
     // 数据列
@@ -96,31 +97,101 @@ export default {
     return {
       // 数据内容，页面初始化完成自动加载
       dataList: [],
-      loading:true
+      loading:true,
+      tagsList:[],
     };
   },
   methods: {
     // 处理页面间消息传输
     procBus() {
       // 从弹出新增/编辑框传出的 更新列表事件    从列表页面传过来的搜索事件
-      eventBus.$on("updateList",()=>{ this.getList()}
-     );
+      eventBus.$on("updateList",()=>{ this.getList()});
     },
     getList() {
+      // debugger;
       if(this.FromPath=="admin_user"){
-         this.dataList = this.userData
-      }else if(this.FromPath=="admin-extension"){
-         this.dataList = this.extensionData
-      }else if (this.FromPath == 'admin_material') {
-        this.dataList = this.materialData
-      } else{
-       this.dataList = this.labelData
+        //  this.dataList = this.userData
+         console.log(UrlUser)
+             UrlUser({limit:this.pageing.limit,offset:this.pageing.offset}).then(res => {
+              this.pageing.total = res.count
+                 this.dataList=res.rows
+                 this.getlabeldata(res.rows)
+             })
+              console.log("获取",this.dataList)
       }
-           // this.pageing.total = 3
+      else if(this.FromPath=="admin-extension"){
+        //  this.dataList = this.extensionData
+        var pageing={limit:this.pageing.limit,offset:this.pageing.offset}
+        var json={}
+       for (let key in this.form){
+          if(this.form[key]!='') {
+                json[key]=this.form[key]
+          }
+      }
+      console.log(json)
+      if(JSON.stringify(json)==="{}"){
+        var form= pageing
+      }else{
+      var form= JSON.parse((JSON.stringify(pageing) + JSON.stringify(json)).replace(/}{/, ','));
+      }
+          UrlChannel(form).then(res => {
+              this.pageing.total = res.count
+                 this.dataList=res.rows
+             })
+         
+      }
+      else if (this.FromPath == 'admin_material') {
+        this.getlabeldata()
+        // this.dataList = this.materialData
+       
+      } 
+      else{
+        var json={}
+        this.form.content?(json={limit:this.pageing.limit,offset:this.pageing.offset,content:this.form.content}):(json={limit:this.pageing.limit,offset:this.pageing.offset})
+          UrlLabel(json).then(res => {
+              this.pageing.total = res.count
+                 this.dataList=res.rows
+             })
+            // this.dataList = this.labelData
+      }
+           // 
           // getProductList({}).then(res => {
           // console.log(res, 'getBannerList')
           //  })
         this.loading=false
+    },
+        getlabeldata(data_arr) {
+           UrlLabel({ limit: 20, offset: 1 }).then(res => {
+            this.tagsList = res.rows;
+               var pageing={limit:this.pageing.limit,offset:this.pageing.offset}
+        var json={}
+       for (let key in this.form){
+          if(this.form[key]!='') {
+                json[key]=this.form[key]
+          }
+      }
+               if(JSON.stringify(json)==="{}"){
+                   var form= pageing
+                }else{
+              var form= JSON.parse((JSON.stringify(pageing) + JSON.stringify(json)).replace(/}{/, ','));
+                } 
+             UrltextStock(form).then(res => {
+              this.pageing.total = res.count
+              //  this.dataList=res.rows
+            for(var i=0;i<res.rows.length;i++){
+                res.rows[i].repalceArr=[];
+                res.rows[i].repalceArr=res.rows[i].tagIds.split(',')
+                for(var k=0;k<res.rows[i].repalceArr.length;k++){
+                  for(var j=0;j<this.tagsList.length;j++){
+                   if(parseInt(this.tagsList[j].id)==parseInt(res.rows[i].repalceArr[k])){
+                           res.rows[i].repalceArr[k]=this.tagsList[j].content
+                  }
+                  }
+                }
+            }
+                this.dataList=res.rows
+             })
+            });
     },
     // 以多少页分页
     handleSizeChange (val) {
@@ -129,7 +200,7 @@ export default {
     },
     // 分页
     handleCurrentChange (val) {
-      this.pageing.page = val;
+      this.pageing.offset = val;
       this.getList();
     },
   },

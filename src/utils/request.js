@@ -3,13 +3,14 @@
  */
 import axios from 'axios'
 import { MessageBox, Loading } from 'element-ui'
-// import cookie from 'js-cookie'
+import cookie from 'js-cookie'
 
 axios.defaults.timeout = 25000
 
 let loading = {close() {return }}
 axios.interceptors.request.use((request) => {
   // 如果刷新消息不需loading
+  request.headers.common['token']=cookie.get('token') || ''
   if (!request['0']) {
     loading = Loading.service({
       lock: true,
