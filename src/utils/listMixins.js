@@ -8,9 +8,8 @@ console.log(loading.close())
 export default {
   data () {
     return {
-      loading:loading,
-      dataList:[]
-    };
+      loading:loading
+    }
   },
   methods: {
     search(){

@@ -27,10 +27,6 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
    export function UrlUserEdit (params) {
     return request.post(baseUrl + 'user/update', params)
   }
-  //新增标签接口
-  export function UrlLabelAdd (params) {
-    return request.post(baseUrl + 'tag/create', params)
-  }
   //标签列表接口
   export function UrlLabel (params) {
     return request.post(baseUrl + 'tag/list', params)
@@ -39,7 +35,6 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
   export function UrlLabelEdit (params) {
     return request.post(baseUrl + 'tag/update', params)
   }
-  
   //文字素材管理接口
   export function UrltextStock (params) {
     return request.post(baseUrl + 'textStock/list', params)
@@ -51,10 +46,6 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
    //更改文字素材管理接口
    export function UrltextStockAdd (params) {
     return request.post(baseUrl + 'textStock/create', params)
-  }
-   //新增推广管理接口
-   export function UrlChannelAdd (params) {
-    return request.post(baseUrl + 'channel/create', params)
   }
    //推广管理接口
    export function UrlChannel (params) {

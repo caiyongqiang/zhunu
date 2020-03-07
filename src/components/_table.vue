@@ -121,20 +121,7 @@ export default {
       }
       else if(this.FromPath=="admin-extension"){
         //  this.dataList = this.extensionData
-        var pageing={limit:this.pageing.limit,offset:this.pageing.offset}
-        var json={}
-       for (let key in this.form){
-          if(this.form[key]!='') {
-                json[key]=this.form[key]
-          }
-      }
-      console.log(json)
-      if(JSON.stringify(json)==="{}"){
-        var form= pageing
-      }else{
-      var form= JSON.parse((JSON.stringify(pageing) + JSON.stringify(json)).replace(/}{/, ','));
-      }
-          UrlChannel(form).then(res => {
+          UrlChannel({limit:this.pageing.limit,offset:this.pageing.offset}).then(res => {
               this.pageing.total = res.count
                  this.dataList=res.rows
              })
@@ -146,9 +133,7 @@ export default {
        
       } 
       else{
-        var json={}
-        this.form.content?(json={limit:this.pageing.limit,offset:this.pageing.offset,content:this.form.content}):(json={limit:this.pageing.limit,offset:this.pageing.offset})
-          UrlLabel(json).then(res => {
+          UrlLabel({limit:this.pageing.limit,offset:this.pageing.offset}).then(res => {
               this.pageing.total = res.count
                  this.dataList=res.rows
              })
@@ -162,20 +147,8 @@ export default {
     },
         getlabeldata(data_arr) {
            UrlLabel({ limit: 20, offset: 1 }).then(res => {
-            this.tagsList = res.rows;
-               var pageing={limit:this.pageing.limit,offset:this.pageing.offset}
-        var json={}
-       for (let key in this.form){
-          if(this.form[key]!='') {
-                json[key]=this.form[key]
-          }
-      }
-               if(JSON.stringify(json)==="{}"){
-                   var form= pageing
-                }else{
-              var form= JSON.parse((JSON.stringify(pageing) + JSON.stringify(json)).replace(/}{/, ','));
-                } 
-             UrltextStock(form).then(res => {
+            this.tagsList = res.rows; 
+             UrltextStock({limit:this.pageing.limit,offset:this.pageing.offset}).then(res => {
               this.pageing.total = res.count
               //  this.dataList=res.rows
             for(var i=0;i<res.rows.length;i++){
@@ -189,6 +162,9 @@ export default {
                   }
                 }
             }
+              console.log("啦啦啦啦：",res.rows)
+                console.log("获取数据")
+                console.log(res.rows)
                 this.dataList=res.rows
              })
             });
