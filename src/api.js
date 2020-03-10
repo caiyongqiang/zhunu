@@ -1,6 +1,6 @@
 import request from './utils/request'
 const testHost = 'https://api.chinamall66.com/'  // https://apiminiv4.i-top.cn
-const proHost = 'https://apiminiv4.i-top.cn'
+const proHost = 'https://api.chinamall66.com/'
 
 const NODE_ENV = process.env.NODE_ENV
 const baseUrl = NODE_ENV === 'development' ? testHost : proHost
@@ -54,4 +54,9 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
  //更改推广管理接口
   export function UrlChannelEdit (params) {
     return request.post(baseUrl + 'channel/update', params)
+  }
+
+  //获取视频管理列表
+  export function videoList (params) {
+    return request.post(baseUrl + 'video/list', params)
   }

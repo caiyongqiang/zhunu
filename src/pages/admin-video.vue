@@ -40,13 +40,13 @@
           min-width="120px">
         </el-table-column>
         <el-table-column
-          prop="mobile"
+          prop="mobilePhone"
           label="用户手机号"
           align='center'
           min-width="120px">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="userName"
           label="视频描述"
           align='center'
           min-width="150px">
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { getProductList } from '@/api'
+import { videoList } from '@/api'
 import listMixins from '@/utils/listMixins.js'
 export default {
   name: 'HelloWorld',
@@ -148,11 +148,14 @@ export default {
     }
   },
   mounted() {
-    // getProductList({}).then(res => {
-    //   console.log(res, 'getBannerList')
-    // })
+    this.getList()
   },
   methods: {
+    getList () {
+      videoList({limit: 10, offset: 1}).then(res => {
+        this.tableData = res.rows
+      })
+    },
     playVideo (url, name) {
       this.$alert(`
         <video width='350px' id='videoId' controls="controls" object-fit='contain' src=${url}></video>
