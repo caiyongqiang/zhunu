@@ -41,9 +41,6 @@
             <el-form-item label="标签名：" prop="content">
                 <el-input v-model="form_edit.content" placeholder="请输入标签名"></el-input>
             </el-form-item>
-             <!-- <el-form-item label="标签名：" prop="numb">
-                <el-input v-model="form_edit.numb" placeholder="请输入标签名"></el-input>
-            </el-form-item> -->
             <el-form-item class="footerConent">
                 <el-button @click="cancle">取 消</el-button>
                 <el-button type="primary" @click="confirm('form_edit')">保存</el-button>
@@ -56,7 +53,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import dataTable from "@/components/_table.vue";
-import { getProductList,UrlLabel,UrlLabelEdit } from "@/api";
+import { getProductList,UrlLabel,UrlLabelEdit,UrlLabelAdd } from "@/api";
 import listMixins from '@/utils/listMixins.js';
 export default {
   components: {
@@ -161,11 +158,20 @@ export default {
     confirm(formName){
       this.$refs[formName].validate((valid) => {
           if (valid) {
-            UrlLabelEdit({id:1,content:this.form_edit.content}).then(res => {
-              // this.form_edit =res.rows[0]
+            // 这个是新增
+            if(this.titleName=="新增标签"){
+           UrlLabelAdd({content:this.form_edit.content}).then(res => {
               this.dialogTableVisible=false
               this.$refs.table.getList();
              })
+            }else{
+           // 这个是编辑
+            UrlLabelEdit(this.form_edit).then(res => {
+              this.dialogTableVisible=false
+              this.$refs.table.getList();
+             })
+            }
+          
           //  
           } else {
             console.log('error submit!!');

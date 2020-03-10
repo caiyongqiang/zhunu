@@ -5,7 +5,7 @@ import axios from 'axios'
 import { MessageBox, Loading } from 'element-ui'
 import cookie from 'js-cookie'
 
-axios.defaults.timeout = 25000
+axios.defaults.timeout = 60000
 
 let loading = {close() {return }}
 axios.interceptors.request.use((request) => {
@@ -24,6 +24,7 @@ axios.interceptors.request.use((request) => {
 
 axios.interceptors.response.use(response => {
     loading.close()
+    // console.log(response, 'response')
     return Promise.resolve(response.data)
   }, err => {
     loading.close()
