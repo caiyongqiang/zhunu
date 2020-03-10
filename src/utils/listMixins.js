@@ -14,14 +14,22 @@ export default {
   },
   methods: {
     search(){
-        console.log("搜索接口",this.form)
-      },
-      clearForm(){
-         console.log("重置",this.form)
-          for (let key in this.form) {
-            this.form[key] = '';
-        }
-      },
+      this.$refs.table.getList();
+  },
+  clearForm(){
+     for (let key in this.form){
+        this.form[key]=''
+    }
+      this.$refs.table.getList();
+  },
+  handleClose() {},
+  cancle() {
+    for (let key in this.form_edit){
+        this.form_edit[key]=''
+    }
+    this.dialogTableVisible = false;
+  },
+  
   },
   created () {
     // this.procBus();

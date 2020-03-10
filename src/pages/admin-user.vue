@@ -6,12 +6,17 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="昵称：" class="Form-lable">
-              <el-input v-model="form.name" placeholder="请输入用户昵称"></el-input>
+              <el-input v-model="form.userName" placeholder="请输入用户昵称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="联系电话：" class="Form-lable">
-              <el-input v-model="form.Phone" placeholder="请输入用户电话"></el-input>
+              <el-input v-model="form.mobilePhone" placeholder="请输入用户电话"></el-input>
+            </el-form-item>
+          </el-col>
+           <el-col :span="8">
+            <el-form-item label="请输入性别：" class="Form-lable">
+              <el-input v-model="form.sex" placeholder="请输入性别"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -23,16 +28,21 @@
             <el-button @click="clearForm">重置</el-button>
           </el-form-item>
         </el-row>
+         <!-- <el-row class="AddClass">
+          <el-form-item>
+            <el-button icon="el-icon-plus" type="primary" @click="AddTap">新增</el-button>
+          </el-form-item>
+        </el-row> -->
       </el-form>
     </div>
     <data-table :columns="columns" :form="form" :pageing="pageing" :FromPath="FromPath" ref="table">
-      <template slot="PullblackList">
+      <!-- <template slot="PullblackList">
         <el-table-column label="拉黑用户" align="center" min-width="200px">
           <template slot-scope="scope">
             <el-switch v-model="scope.row.isBlockedByIp" active-text="是" inactive-text="否">></el-switch>
           </template>
         </el-table-column>
-      </template>
+      </template> -->
       <template slot="btnList">
         <el-table-column label="操作" align="center" min-width="200px">
           <template slot-scope="scope">
@@ -48,7 +58,7 @@
       </template>
     </data-table>
     <el-dialog
-      title="编辑用户信息"
+      :title="titleName"
       :visible.sync="dialogTableVisible"
       width="500px"
       center
@@ -69,10 +79,10 @@
         <el-form-item label="联系电话：" prop="mobilePhone" maxlength="11">
           <el-input v-model.number="form_edit.mobilePhone" placeholder="请输入手机号码"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="性别：" prop="sex">
+        <el-form-item label="性别：" prop="sex">
           <el-input v-model="form_edit.sex" placeholder="请输入性别"></el-input>
         </el-form-item>
-        <el-form-item label="出生日期：" prop="birth" maxlength="11">
+         <!--<el-form-item label="出生日期：" prop="birth" maxlength="11">
           <el-input v-model="form_edit.birth" placeholder="请选择出生日期"></el-input>
         </el-form-item>
         <el-form-item label="所在城市：" prop="city">
@@ -91,7 +101,7 @@
 </template>
 <script>
 
-import { UrlUser, UrlUserEdit } from "@/api";
+import { UrlUser, UrlUserEdit,UrlUserAdd } from "@/api";
 import { mapActions, mapState } from "vuex";
 import listMixins from "@/utils/listMixins.js";
 import dataTable from "@/components/_table.vue";
@@ -143,6 +153,7 @@ export default {
         { name: "编辑", type: "primary" },
         // { name: "删除", type: "danger" }
       ],
+      titleName:'',
       form_edit: {},
       rules: {
         userName: [
@@ -151,7 +162,7 @@ export default {
         mobilePhone: [
           { required: true, message: "请输入手机号", trigger: "change" }
         ],
-        sex: [{ required: true, message: "请输入详细地址", trigger: "blur" }],
+        sex: [{ required: true, message: "请输入性别", trigger: "blur" }],
         city: [{ required: true, message: "请选择所在地区", trigger: "blur" }],
         baduser: [
           { required: true, message: "请输入详细地址", trigger: "blur" }
@@ -181,6 +192,11 @@ export default {
     // this.getEdict();
   },
   methods: {
+      // 新增
+    // AddTap(){
+    //       this.dialogTableVisible=true
+    //        this.titleName="新增用户"
+    // },
     ...mapActions(["changeUserInfo"]),
     // ...mapActions(["changeUserData"]),
     handleCommand(title, data) {
@@ -199,16 +215,19 @@ export default {
     // 编辑
     EditAway(data) {
       this.dialogTableVisible = true;
+      this.titleName = "编辑用户";
       this.form_edit = JSON.parse(JSON.stringify(data));
-      // this.$refs.table.getList();
     },
     confirm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          debugger;
           this.dialogTableVisible = false;
-          UrlUserEdit({
+          if(this.titleName=="编辑用户"){
+         UrlUserEdit({
             id: this.form_edit.id,
             userName: this.form_edit.userName,
+            sex: this.form_edit.sex,
             mobilePhone: this.form_edit.mobilePhone
           }).then(res => {
             console.log(this.loading.close())
@@ -220,6 +239,22 @@ export default {
             });
             this.$refs.table.getList();
           });
+          }else{
+        // UrlUserAdd({
+        //     id: this.form_edit.id,
+        //     userName: this.form_edit.userName,
+        //     mobilePhone: this.form_edit.mobilePhone
+        //   }).then(res => {
+        //     console.log(this.loading.close())
+        //     this.loading.close()
+        //     this.$message({
+        //       showClose: true,
+        //       message: "用户新增成功",
+        //       type: "success"
+        //     });
+        //     this.$refs.table.getList();
+        //   });
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -241,10 +276,7 @@ export default {
     //     })
     //     .catch(_ => {});
     // },
-    handleClose() {},
-    cancle() {
-      this.dialogTableVisible = false;
-    }
+ 
   }
 };
 </script>
@@ -268,5 +300,9 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+.AddClass {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

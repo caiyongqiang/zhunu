@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { getProductList } from '@/api'
+import { getProductList,UrlVideo,UrlVideoquery } from '@/api'
 import listMixins from '@/utils/listMixins.js'
 export default {
   name: 'HelloWorld',
@@ -148,9 +148,12 @@ export default {
     }
   },
   mounted() {
-    // getProductList({}).then(res => {
-    //   console.log(res, 'getBannerList')
-    // })
+    UrlVideo({}).then(res => {
+      console.log(res, 'getBannerList')
+    })
+    UrlVideoquery({}).then(res => {
+      console.log(res, 'getBannerList')
+    })
   },
   methods: {
     playVideo (url, name) {

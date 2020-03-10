@@ -118,7 +118,8 @@ import {
   getProductList,
   UrltextStockEdit,
   UrlLabel,
-  UrltextStockAdd
+  UrltextStockAdd,
+  UrltextStockDelete
 } from "@/api";
 import listMixins from "@/utils/listMixins.js";
 
@@ -200,15 +201,6 @@ export default {
     //  var arr= this.$refs.table.getList();
   },
   methods: {
-      search(){
-        this.$refs.table.getList();
-    },
-    clearForm(){
-       for (let key in this.form){
-          this.form[key]=''
-      }
-        this.$refs.table.getList();
-    },
     SwitchTap(data){
      UrltextStockEdit({id:data.id,isRun:data.isRun}).then(res => {
             //  this.dialogTableVisible = false;
@@ -263,6 +255,8 @@ export default {
           } else {
             this.form_edit.LabelSelectArr = [parseInt(this.form_edit.tagIds)];
           }
+        }else{
+          
         }
         console.log(">>>", this.form_edit.LabelSelectArr);
       });
@@ -273,9 +267,9 @@ export default {
         .then(_ => {
           // this.materialData.splice(data.PKID, 1);
           // this.changelabelData(this.materialData);
-          setTimeout(() => {
-            this.$refs.table.getList();
-          }, 1000);
+          UrltextStockDelete({id:data.id}).then(res=>{
+               this.$refs.table.getList();
+          })
           done();
         })
         .catch(_ => {});
@@ -312,13 +306,14 @@ export default {
               }
             }
             UrltextStockAdd(this.form_edit).then(res => {
-              this.dialogTableVisible = false;
+              // this.dialogTableVisible = false;
               this.loading.close();
               this.$message({
                 showClose: true,
-                message: "修改成功",
+                message: "新增成功",
                 type: "success"
               });
+              this.cancle()
               this.$refs.table.getList();
             });
           } else {
