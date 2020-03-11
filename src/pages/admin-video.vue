@@ -235,9 +235,14 @@ export default {
       .catch(_ => {});
     },
     handleDownload (index, url) {
-      console.log(url, 'url')
-      // window.location.href = url
-      window.open(url)
+       try {
+          var elemIF = document.createElement("iframe");
+          elemIF.src = url;
+          elemIF.style.display = "none";
+          document.body.appendChild(elemIF);
+        } catch (e) {
+          alert("下载异常！");
+    }
 
   }
 }
