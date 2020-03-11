@@ -235,13 +235,14 @@ export default {
       .catch(_ => {});
     },
     handleDownload (index, url) {
+     
        try {
           var elemIF = document.createElement("iframe");
           elemIF.src = url;
           elemIF.style.display = "none";
           document.body.appendChild(elemIF);
         } catch (e) {
-          alert("下载异常！");
+          alert("下载异常！!");
     }
 
   }
