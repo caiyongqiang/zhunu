@@ -29,7 +29,7 @@
       <el-table
         :data="tableData"
         border
-        height="550"
+        height="70vh"
         stripe
         :header-cell-style="{background:'#F3F5F9'}"
         style="width: 100%">
@@ -61,7 +61,7 @@
           min-width="150px">
             <template slot-scope="scope">
               <div>
-                <div v-for="item in scope.row.videos" :key="item.id" class="videobut">
+                <div v-for="item in scope.row.videos" :key="item.id" class="videoContent">
                   <div>{{item.content}}</div>
                 </div>
               </div>
@@ -92,10 +92,10 @@
           min-width="150px">
           <template slot-scope="scope">
             <div v-for="item in scope.row.videos" :key="item.id" class="videobut">
-              <el-button
+              <!-- <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                @click="handleDelete(scope.$index, scope.row)">删除</el-button> -->
               <el-button
                 size="mini"
                 type="primary"
@@ -160,19 +160,14 @@ export default {
       // let tableData = this.tableData
       for (let i = 0; i < tableData.length; i++) {
         let videos = tableData[i].videos
-        if (videos.length > 0) {
+        if (videos.length && videos.length > 0) {
           for(let a = 0; a < videos.length; a++) {
-            let data = await UrltextStock({id: 1})
-            tableData[i].videos[a].content = data.rows[0].content
+            let data = await UrltextStock({id: videos[a].id})
+            tableData[i].videos[a]['content'] = (data.rows&&data.rows[0]) ? data.rows[0].content : ''
           }
         }
       }
       this.tableData = tableData
-      this.$forceUpdate()
-      console.log(this.tableData)
-      // UrltextStock({id: 1}).then(res => {
-      //   console.log(res, 'UrltextStock')
-      // })
     },
     // 视频列表
     getList (index) {
@@ -182,8 +177,8 @@ export default {
         if (this.form.userName) params.userName = this.form.userName
       }
       videoList(params).then(res => {
-        console.log(res, 'videoList')
-        this.tableData = res.rows
+        // this.tableData = res.rows
+        if (!res.rows) return this.$message.error('请求失败');
         this.total = res.count
         this.getUrltextStock(res.rows)
       })
@@ -199,6 +194,14 @@ export default {
     // 查询
     search () {
       this.getList(1)
+    },
+    // 重置
+    clearForm () {
+      this.form = {
+        userName: "",
+        mobilePhone: "",
+      }
+      this.getList()
     },
     // 页数改变
     currentChange (e) {
@@ -229,15 +232,7 @@ export default {
     handleDownload (index, url) {
       console.log(url, 'url')
       // window.location.href = url
-      // window.open(url)
-      try {
-          var elemIF = document.createElement("iframe");
-          elemIF.src = url;
-          elemIF.style.display = "none";
-          document.body.appendChild(elemIF);
-        } catch (e) {
-          alert("下载异常！");
-        }
+      window.open(url)
 
     }
   }
@@ -261,6 +256,12 @@ export default {
 .table{
   max-height: 78vh;
   overflow: auto;
+}
+.videoContent{
+  height: 200px;
+  line-height: 200px;
+  background: #f4f4f4;
+  margin-bottom: 10px;
 }
 .videoList{
   width: 100%;
