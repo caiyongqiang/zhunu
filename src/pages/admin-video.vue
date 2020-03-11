@@ -125,11 +125,7 @@
 </template>
 
 <script>
-<<<<<<< .mine
-import { getProductList,UrlVideo,UrlVideoquery } from '@/api'
-=======
 import { videoList, configQuery, UrltextStock } from '@/api'
->>>>>>> .theirs
 import listMixins from '@/utils/listMixins.js'
 export default {
   name: 'HelloWorld',
@@ -155,30 +151,6 @@ export default {
     }
   },
   mounted() {
-<<<<<<< .mine
-    UrlVideo({}).then(res => {
-      console.log(res, 'getBannerList')
-    })
-    UrlVideoquery({}).then(res => {
-      console.log(res, 'getBannerList')
-    })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
     this.getconfigQuery()
     this.getList()
   },
@@ -201,7 +173,6 @@ export default {
       // UrltextStock({id: 1}).then(res => {
       //   console.log(res, 'UrltextStock')
       // })
->>>>>>> .theirs
   },
     // 视频列表
     getList (index) {

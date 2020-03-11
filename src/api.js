@@ -85,3 +85,8 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
   export function configQuery (params) {
     return request.post(baseUrl + 'config/query', params)
   }
+  // 推广管理删除接口
+  export function UrlChannelDelete (params) {
+    return request.post(baseUrl + 'channel/delete', params)
+  }
+ 
