@@ -60,6 +60,10 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
   export function UrltextStockDelete (params) {
     return request.post(baseUrl + 'textStock/delete', params)
   }
+  // 推广管理删除接口
+  export function UrlChannelDelete (params) {
+    return request.post(baseUrl + 'channel/delete', params)
+  }
    //更改文字素材管理接口
    export function UrltextStockAdd (params) {
     return request.post(baseUrl + 'textStock/create', params)
@@ -85,8 +89,8 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
   export function configQuery (params) {
     return request.post(baseUrl + 'config/query', params)
   }
-  // 推广管理删除接口
-  export function UrlChannelDelete (params) {
-    return request.post(baseUrl + 'channel/delete', params)
-  }
+  // // 推广管理删除接口
+  // export function UrlChannelDelete (params) {
+  //   return request.post(baseUrl + 'channel/delete', params)
+  // }
  
