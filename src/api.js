@@ -1,6 +1,6 @@
 import request from './utils/request'
 const testHost = 'https://api.chinamall66.com/'  // https://apiminiv4.i-top.cn
-const proHost = 'https://apiminiv4.i-top.cn'
+const proHost = 'https://api.chinamall66.com/'
 
 const NODE_ENV = process.env.NODE_ENV
 const baseUrl = NODE_ENV === 'development' ? testHost : proHost
@@ -49,7 +49,7 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
   }
   
   //文字素材管理接口
-  export function UrltextStock (params) {
+  export async function UrltextStock (params) {
     return request.post(baseUrl + 'textStock/list', params)
   }
    //更改文字素材管理接口
@@ -76,14 +76,12 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
   export function UrlChannelEdit (params) {
     return request.post(baseUrl + 'channel/update', params)
   }
-  // 推广管理删除接口
-  export function UrlChannelDelete (params) {
-    return request.post(baseUrl + 'channel/delete', params)
-  }
-  // 视频管理
-  export function UrlVideo (params) {
+
+  //获取视频管理列表
+  export function videoList (params) {
     return request.post(baseUrl + 'video/list', params)
   }
-  export function UrlVideoquery (params) {
+  //获取视频地址前缀
+  export function configQuery (params) {
     return request.post(baseUrl + 'config/query', params)
   }

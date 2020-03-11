@@ -6,12 +6,12 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="昵称：" class="Form-lable">
-              <el-input v-model="form.name" placeholder="请输入用户昵称"></el-input>
+              <el-input v-model="form.userName" placeholder="请输入用户昵称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="联系电话：" class="Form-lable">
-              <el-input v-model="form.Phone" placeholder="请输入用户电话"></el-input>
+              <el-input v-model="form.mobilePhone" placeholder="请输入用户电话"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -34,22 +34,38 @@
         :header-cell-style="{background:'#F3F5F9'}"
         style="width: 100%">
         <el-table-column
-          prop="id"
+          prop=""
           label="序号"
           align='center'
           min-width="120px">
+          <template slot-scope="scope">
+              {{scope.$index+1}}
+          </template>
         </el-table-column>
         <el-table-column
-          prop="mobile"
+          prop="mobilePhone"
           label="用户手机号"
           align='center'
           min-width="120px">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="userName"
+          label="昵称"
+          align='center'
+          min-width="150px">
+        </el-table-column>
+        <el-table-column
+          prop="userName"
           label="视频描述"
           align='center'
           min-width="150px">
+            <template slot-scope="scope">
+              <div>
+                <div v-for="item in scope.row.videos" :key="item.id" class="videobut">
+                  <div>{{item.content}}</div>
+                </div>
+              </div>
+            </template>
         </el-table-column>
         <el-table-column
           prop="sex"
@@ -57,8 +73,15 @@
           min-width="400px"
           label="视频">
           <template slot-scope="scope">
-            <div @click="playVideo(scope.row.video, scope.row.name)">
-              <video width="300px" height="200px" object-fit='contain' :src="scope.row.video"></video>
+            <div>
+              <div v-for="item in scope.row.videos" :key="item.id" class="videoList">
+                <video
+                  width="100%"
+                  height="200"
+                  object-fit='contain'
+                  :src="videoUrl + item.filename"
+                  @click="playVideo(videoUrl + item.filename, '')"></video>
+            </div>
             </div>
           </template>
         </el-table-column>
@@ -68,6 +91,7 @@
           label="操作"
           min-width="150px">
           <template slot-scope="scope">
+            <div v-for="item in scope.row.videos" :key="item.id" class="videobut">
             <el-button
             size="mini"
             type="danger"
@@ -75,7 +99,8 @@
             <el-button
             size="mini"
             type="primary"
-            @click="handleDownload(scope.$index, scope.row)">下载</el-button>
+                @click="handleDownload(scope.$index, videoUrl + item.filename)">下载</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -84,7 +109,10 @@
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="1000">
+        @current-change="currentChange"
+        @next-click='currentChange'
+        :page-size='10'
+        :total="total">
       </el-pagination>
     </div>
     <!-- <div class="video-mask">
@@ -97,7 +125,11 @@
 </template>
 
 <script>
+<<<<<<< .mine
 import { getProductList,UrlVideo,UrlVideoquery } from '@/api'
+=======
+import { videoList, configQuery, UrltextStock } from '@/api'
+>>>>>>> .theirs
 import listMixins from '@/utils/listMixins.js'
 export default {
   name: 'HelloWorld',
@@ -113,49 +145,94 @@ export default {
           user: '13000000009',
           sex: '男',
           video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
-        }, {
-          id: 2,
-          date: '2019-03-23',
-          name: '王小虎',
-          mobile: '13660000000',
-          address: '广东-广州',
-          user: '13000000009',
-          sex: '男',
-          video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
-        },{
-          id: 3,
-          date: '2019-03-23',
-          name: '王小虎',
-          mobile: '13660000000',
-          address: '广东-广州',
-          user: '13000000009',
-          sex: '男',
-          video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
-        },{
-          id: 4,
-          date: '2019-03-23',
-          name: '王小虎',
-          mobile: '13660000000',
-          address: '广东-广州',
-          user: '13000000009',
-          sex: '男',
-          video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
         }],
            form: {
-       numb: "",
-        Phone: "",
+        userName: "",
+        mobilePhone: "",
       },
+      videoUrl: '',
+      total: 0
     }
   },
   mounted() {
+<<<<<<< .mine
     UrlVideo({}).then(res => {
       console.log(res, 'getBannerList')
     })
     UrlVideoquery({}).then(res => {
       console.log(res, 'getBannerList')
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+    this.getconfigQuery()
+    this.getList()
   },
   methods: {
+    // 视频描述
+    async getUrltextStock (tableData) {
+      // let tableData = this.tableData
+      for (let i = 0; i < tableData.length; i++) {
+        let videos = tableData[i].videos
+        if (videos.length > 0) {
+          for(let a = 0; a < videos.length; a++) {
+            let data = await UrltextStock({id: 1})
+            tableData[i].videos[a].content = data.rows[0].content
+          }
+        }
+      }
+      this.tableData = tableData
+      this.$forceUpdate()
+      console.log(this.tableData)
+      // UrltextStock({id: 1}).then(res => {
+      //   console.log(res, 'UrltextStock')
+      // })
+>>>>>>> .theirs
+  },
+    // 视频列表
+    getList (index) {
+      let params = {limit: 10, offset: index||1}
+      if (index) {
+        if (this.form.mobilePhone) params.mobilePhone = this.form.mobilePhone
+        if (this.form.userName) params.userName = this.form.userName
+      }
+      videoList(params).then(res => {
+        console.log(res, 'videoList')
+        this.tableData = res.rows
+        this.total = res.count
+        this.getUrltextStock(res.rows)
+      })
+    },
+    // 视频地址拼接
+    getconfigQuery () {
+      configQuery({}).then(res => {
+        if (res) {
+          this.videoUrl = 'https://api.chinamall66.com' + res.videoUrl
+        }
+      })
+    },
+    // 查询
+    search () {
+      this.getList(1)
+    },
+    // 页数改变
+    currentChange (e) {
+      this.getList(e)
+    },
     playVideo (url, name) {
       this.$alert(`
         <video width='350px' id='videoId' controls="controls" object-fit='contain' src=${url}></video>
@@ -178,11 +255,21 @@ export default {
           })
       .catch(_ => {});
     },
-    handleDownload (index, item) {
-      // window.location.href = item.video
-      window.open(item.video)
+    handleDownload (index, url) {
+      console.log(url, 'url')
+      // window.location.href = url
+      // window.open(url)
+      try {
+          var elemIF = document.createElement("iframe");
+          elemIF.src = url;
+          elemIF.style.display = "none";
+          document.body.appendChild(elemIF);
+        } catch (e) {
+          alert("下载异常！");
     }
+
   }
+}
 }
 </script>
 
@@ -203,5 +290,15 @@ export default {
 .table{
   max-height: 78vh;
   overflow: auto;
+}
+.videoList{
+  width: 100%;
+  height: 200px;
+  background: #ccc;
+  margin-bottom: 10px;
+}
+.videobut{
+  height: 200px;
+  line-height: 200px;
 }
 </style>
