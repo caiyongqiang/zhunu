@@ -38,9 +38,8 @@ axios.interceptors.response.use(response => {
       }).catch(err => {
         window.location.href = '/'
       })
-    } else {
-      return Promise.resolve(response.data)
     }
+    return Promise.resolve(response.data)
   }, err => {
     loading.close()
     MessageBox(err.message)
