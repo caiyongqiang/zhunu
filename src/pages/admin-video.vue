@@ -132,16 +132,7 @@ export default {
     mixins: [listMixins],
   data () {
     return {
-      tableData: [{
-          id: 1,
-          date: '2019-03-23',
-          name: '王小虎',
-          mobile: '13660000000',
-          address: '广东-广州',
-          user: '13000000009',
-          sex: '男',
-          video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
-        }],
+      tableData: [],
            form: {
         userName: "",
         mobilePhone: "",
@@ -168,11 +159,6 @@ export default {
         }
       }
       this.tableData = tableData
-
-
-
-
-
   },
     // 视频列表
     getList (index) {
