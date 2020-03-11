@@ -81,7 +81,7 @@
                   object-fit='contain'
                   :src="videoUrl + item.filename"
                   @click="playVideo(videoUrl + item.filename, '')"></video>
-              </div>
+            </div>
             </div>
           </template>
         </el-table-column>
@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import { videoList, configQuery, UrltextStock } from '@/api'
+import { videoList, configQuery, UrltextStock  } from '@/api.js'
 import listMixins from '@/utils/listMixins.js'
 export default {
   name: 'HelloWorld',
@@ -142,12 +142,12 @@ export default {
           sex: '男',
           video: 'https://api.i-top.cn/files/file/20191127/201911271645156344.mp4'
         }],
-      form: {
+           form: {
         userName: "",
         mobilePhone: "",
       },
       videoUrl: '',
-      total: 0
+      total: 0,
     }
   },
   mounted() {

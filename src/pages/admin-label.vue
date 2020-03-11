@@ -53,7 +53,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import dataTable from "@/components/_table.vue";
-import { getProductList,UrlLabel,UrlLabelEdit,UrlLabelAdd } from "@/api";
+import { getProductList,UrlLabel,UrlLabelEdit,UrlLabelAdd,UrlLabelDelte } from "@/api";
 import listMixins from '@/utils/listMixins.js';
 export default {
   components: {
@@ -105,13 +105,6 @@ export default {
     console.log(this.labelData, "labelData");
   },
   methods: {
-    search(){
-        this.$refs.table.getList();
-    },
-    clearForm(){
-      this.form.content=""
-        this.$refs.table.getList();
-    },
     ...mapActions(["changelabelData"]),
     handleCommand(title, data) {
       switch (title) {
@@ -136,24 +129,14 @@ export default {
     },
     // 删除
     DeleteAway(data) {
-      this.$confirm('确认关闭？')
+      this.$confirm('确认删除该标签？')
           .then(_ => {
-           this.labelData.splice(data.PKID,1)
-           this.changelabelData(this.labelData)
-            setTimeout(()=>{
-           this.$refs.table.getList();
-      },1000)
+          UrlLabelDelte({id:data.id}).then(res=>{
+               this.$refs.table.getList();
+          })
             done();
           })
       .catch(_ => {});
-    },
-    handleClose(){
-    },
-    cancle(){
-         for (let key in this.form_edit){
-          this.form_edit[key]=''
-      }
-       this.dialogTableVisible=false
     },
     confirm(formName){
       this.$refs[formName].validate((valid) => {
@@ -161,13 +144,24 @@ export default {
             // 这个是新增
             if(this.titleName=="新增标签"){
            UrlLabelAdd({content:this.form_edit.content}).then(res => {
-              this.dialogTableVisible=false
+              // this.dialogTableVisible=false
+                   this.$message({
+              showClose: true,
+              message: "标签新增成功",
+              type: "success"
+            });
+              this.cancle()
               this.$refs.table.getList();
              })
             }else{
            // 这个是编辑
             UrlLabelEdit(this.form_edit).then(res => {
-              this.dialogTableVisible=false
+              this.dialogTableVisible=false;
+                 this.$message({
+              showClose: true,
+              message: "标签编辑成功",
+              type: "success"
+            });
               this.$refs.table.getList();
              })
             }

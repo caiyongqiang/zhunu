@@ -129,7 +129,12 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import dataTable from "@/components/_table.vue";
-import { getProductList, UrlChannelEdit, UrlChannelAdd } from "@/api";
+import {
+  getProductList,
+  UrlChannelEdit,
+  UrlChannelAdd,
+  UrlChannelDelete
+} from "@/api";
 import listMixins from "@/utils/listMixins.js";
 export default {
   components: {
@@ -175,10 +180,10 @@ export default {
           { required: true, message: "请输入进件量", trigger: "blur" }
         ]
       },
-      titleName:'',
+      titleName: "",
       FromPath: "admin-extension",
       form: {
-          name: "",
+        name: "",
         pv: "",
         uv: "",
         iosInstallCount: "",
@@ -215,15 +220,6 @@ export default {
     console.log(this.extensionData, "extensionData");
   },
   methods: {
-    search(){
-        this.$refs.table.getList();
-    },
-    clearForm(){
-       for (let key in this.form){
-          this.form[key]=''
-      }
-        this.$refs.table.getList();
-    },
     // 新增
     AddTap() {
       this.dialogTableVisible = true;
@@ -235,33 +231,35 @@ export default {
       this.titleName = "编辑推广管理";
       this.form_edit = JSON.parse(JSON.stringify(data));
     },
-    handleClose() {},
-    cancle() {
-      for (let key in this.form_edit){
-          this.form_edit[key]=''
-      }
-      this.dialogTableVisible = false;
-    },
+
     confirm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 这个是新增
           if (this.titleName == "新增推广管理") {
-            UrlLabelAdd({ content: this.form_edit.content }).then(res => {
-              this.dialogTableVisible = false;
+            UrlChannelAdd(this.form_edit).then(res => {
+              // this.dialogTableVisible = false;
+              this.$message({
+                showClose: true,
+                message: "新增成功",
+                type: "success"
+              });
+              this.cancle();
               this.$refs.table.getList();
             });
           } else {
             // 这个是编辑
             UrlChannelEdit(this.form_edit).then(res => {
+              this.$message({
+                showClose: true,
+                message: "编辑成功",
+                type: "success"
+              });
               this.dialogTableVisible = false;
               this.$refs.table.getList();
             });
           }
-
-          //
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -279,13 +277,11 @@ export default {
     },
     // 删除
     DeleteAway(data) {
-      this.$confirm("确认关闭？")
+      this.$confirm("确认删除该条推广？")
         .then(_ => {
-          this.extensionData.splice(data.PKID, 1);
-          this.changeextensionData(this.extensionData);
-          setTimeout(() => {
+          UrlChannelDelete({ id: data.id }).then(res => {
             this.$refs.table.getList();
-          }, 1000);
+          });
           done();
         })
         .catch(_ => {});

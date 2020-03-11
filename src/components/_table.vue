@@ -99,6 +99,7 @@ export default {
       dataList: [],
       loading:true,
       tagsList:[],
+      passForm:{},
     };
   },
   methods: {
@@ -107,20 +108,7 @@ export default {
       // 从弹出新增/编辑框传出的 更新列表事件    从列表页面传过来的搜索事件
       eventBus.$on("updateList",()=>{ this.getList()});
     },
-    getList() {
-      // debugger;
-      if(this.FromPath=="admin_user"){
-        //  this.dataList = this.userData
-         console.log(UrlUser)
-             UrlUser({limit:this.pageing.limit,offset:this.pageing.offset}).then(res => {
-              this.pageing.total = res.count
-                 this.dataList=res.rows
-                 this.getlabeldata(res.rows)
-             })
-              console.log("获取",this.dataList)
-      }
-      else if(this.FromPath=="admin-extension"){
-        //  this.dataList = this.extensionData
+    getPassform(){
         var pageing={limit:this.pageing.limit,offset:this.pageing.offset}
         var json={}
        for (let key in this.form){
@@ -128,56 +116,49 @@ export default {
                 json[key]=this.form[key]
           }
       }
-      console.log(json)
       if(JSON.stringify(json)==="{}"){
         var form= pageing
       }else{
       var form= JSON.parse((JSON.stringify(pageing) + JSON.stringify(json)).replace(/}{/, ','));
       }
+      return form
+    },
+    getList() {
+     var form=this.getPassform()
+      // 下面是几个页面的判读；
+      if(this.FromPath=="admin_user"){  //用户表的页面
+             UrlUser(form).then(res => {
+              this.pageing.total = res.count
+                 this.dataList=res.rows
+             })
+              console.log("获取",this.dataList)
+      }
+      else if(this.FromPath=="admin-extension"){  //推广的页面
           UrlChannel(form).then(res => {
               this.pageing.total = res.count
                  this.dataList=res.rows
              })
          
       }
-      else if (this.FromPath == 'admin_material') {
+      else if (this.FromPath == 'admin_material') {  //素材管理的页面
         this.getlabeldata()
-        // this.dataList = this.materialData
-       
       } 
-      else{
+      else{  //素材管理的页面
         var json={}
         this.form.content?(json={limit:this.pageing.limit,offset:this.pageing.offset,content:this.form.content}):(json={limit:this.pageing.limit,offset:this.pageing.offset})
           UrlLabel(json).then(res => {
               this.pageing.total = res.count
                  this.dataList=res.rows
              })
-            // this.dataList = this.labelData
       }
-           // 
-          // getProductList({}).then(res => {
-          // console.log(res, 'getBannerList')
-          //  })
         this.loading=false
     },
         getlabeldata(data_arr) {
+          var form=this.getPassform()
            UrlLabel({ limit: 20, offset: 1 }).then(res => {
             this.tagsList = res.rows;
-               var pageing={limit:this.pageing.limit,offset:this.pageing.offset}
-        var json={}
-       for (let key in this.form){
-          if(this.form[key]!='') {
-                json[key]=this.form[key]
-          }
-      }
-               if(JSON.stringify(json)==="{}"){
-                   var form= pageing
-                }else{
-              var form= JSON.parse((JSON.stringify(pageing) + JSON.stringify(json)).replace(/}{/, ','));
-                } 
              UrltextStock(form).then(res => {
               this.pageing.total = res.count
-              //  this.dataList=res.rows
             for(var i=0;i<res.rows.length;i++){
                 res.rows[i].repalceArr=[];
                 res.rows[i].repalceArr=res.rows[i].tagIds.split(',')

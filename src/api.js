@@ -19,6 +19,10 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
   export function UrlLogin (params) {
     return request.post(baseUrl + 'admin/login', params)
   }
+   //新增用户列表接口
+   export function UrlUserAdd (params) {
+    return request.post(baseUrl + 'user/create', params)
+  }
   //用户列表接口
   export function UrlUser (params) {
     return request.post(baseUrl + 'user/list', params)
@@ -39,7 +43,11 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
   export function UrlLabelEdit (params) {
     return request.post(baseUrl + 'tag/update', params)
   }
-
+  // 删除标签
+  export function UrlLabelDelte (params) {
+    return request.post(baseUrl + 'tag/delete', params)
+  }
+  
   //文字素材管理接口
   export async function UrltextStock (params) {
     return request.post(baseUrl + 'textStock/list', params)
@@ -48,6 +56,14 @@ const baseUrl = NODE_ENV === 'development' ? testHost : proHost
    export function UrltextStockEdit (params) {
     return request.post(baseUrl + 'textStock/update', params)
   }
+  // 文字素材删除接口
+  export function UrltextStockDelete (params) {
+    return request.post(baseUrl + 'textStock/delete', params)
+  }
+  // 推广管理删除接口
+  export function UrlChannelDelete (params) {
+    return request.post(baseUrl + 'channel/delete', params)
+  }
    //更改文字素材管理接口
    export function UrltextStockAdd (params) {
     return request.post(baseUrl + 'textStock/create', params)
